@@ -1,0 +1,17 @@
+﻿using ECommerce.Core.Responses.Abstracts;
+
+namespace ECommerce.Core.Responses.Base;
+
+public class Result : IResult
+{
+    public bool Success { get; }
+    public string Message { get; }
+    public int StatusCode { get; }
+
+    public Result(bool success, string message, int statusCode)
+    {
+        Success = success;
+        Message = message;
+        StatusCode = statusCode;
+    }
+}

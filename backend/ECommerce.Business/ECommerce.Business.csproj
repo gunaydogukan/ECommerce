@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Core\ECommerce.Core.csproj" />
+    <ProjectReference Include="..\ECommerce.DataAccess\ECommerce.DataAccess.csproj" />
+    <ProjectReference Include="..\ECommerce.Entities\ECommerce.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cart\Commands\Update\" />
+    <Folder Include="Cart\Dtos\" />
+    <Folder Include="Cart\Mapping\" />
+    <Folder Include="Cart\Queries\GetMyCart\" />
+    <Folder Include="Favorites\Commands\Add\" />
+    <Folder Include="Favorites\Dtos\" />
+    <Folder Include="Order\Commands\Add\" />
+    <Folder Include="Products\Commands\Delete\" />
+    <Folder Include="Products\Commands\Update\" />
+    <Folder Include="Products\Mapping\" />
+    <Folder Include="Products\Queries\GetProductById\" />
+    <Folder Include="Products\Queries\GetAllProducts\" />
+    <Folder Include="Users\Queries\GetMe\" />
+  </ItemGroup>
+
+</Project>
