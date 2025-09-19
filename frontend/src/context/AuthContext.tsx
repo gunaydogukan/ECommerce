@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState } from "react";
-import { logoutServer } from "@/services/auth/logout.server";
+import { getCookieServer } from "@/lib/getCookie.server";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -21,7 +21,7 @@ export function AuthProvider({
     const [isAuthenticated, setIsAuthenticated] = useState(initialAuth);
 
     const logout = async () => {
-        await logoutServer();
+        await getCookieServer();
         setIsAuthenticated(false);
     };
 
