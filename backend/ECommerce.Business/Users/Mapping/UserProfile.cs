@@ -23,9 +23,7 @@ namespace ECommerce.Business.Users.Mapping
             CreateMap<UserUpdateDto, User>();
 
             // Response
-            CreateMap<User, UserResponseDto>()
-                .ForMember(dest => dest.FullName,
-                    opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+            CreateMap<User, UserResponseDto>();
 
             CreateMap<UserRegisterDto, UserResponseDto>();
 
