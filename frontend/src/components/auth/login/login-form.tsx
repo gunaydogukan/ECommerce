@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { loginServer } from "@/services/auth/auth.server";
 import { setToken } from "@/lib/auth.client";
 
-export default function LoginForm({ successMessage }: { successMessage?: string | null }) {
+export default function LoginForm() {
     const router = useRouter();
     const { setIsAuthenticated } = useAuth();
 
@@ -56,12 +56,6 @@ export default function LoginForm({ successMessage }: { successMessage?: string 
 
             <CardContent className="px-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {successMessage && (
-                        <div className="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">
-                            {successMessage}
-                        </div>
-                    )}
-
                     {error && (
                         <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
                             {error}
