@@ -31,9 +31,7 @@ export default function LoginForm() {
 
         try {
             setLoading(true);
-            const data = await loginServer({ email, password });
-
-            setToken(data.token);
+            await loginServer({ email, password });
 
             setIsAuthenticated(true);
             router.push(ROUTES.HOME);

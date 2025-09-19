@@ -10,6 +10,7 @@ import {
     LoginApiResponse,
     RegisterApiResponse,
 } from "./types";
+import { setSessionToken } from "@/lib/cookie.server";
 
 export async function loginServer(payload: LoginPayload): Promise<LoginResponse> {
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.AUTH}/auth/login`, {
@@ -25,6 +26,11 @@ export async function loginServer(payload: LoginPayload): Promise<LoginResponse>
     }
 
     const response: LoginApiResponse = await res.json();
+
+    if (response?.data?.token) {
+        await setSessionToken(response.data.token);
+    }
+
     return response.data;
 }
 
