@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "@/hooks/use-auth";
+import { User as UserIcon } from "lucide-react";
 
 export function Navbar() {
     const router = useRouter();
@@ -38,15 +39,23 @@ export function Navbar() {
 
                 {/* Actions - Conditional based on auth status */}
                 <div className="flex items-center space-x-2 md:space-x-3">
-                    {isAuthenticated  ? (
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-xs md:text-sm px-2 md:px-4"
-                            onClick={handleLogout}
-                        >
-                            Çıkış Yap
-                        </Button>
+                    {isAuthenticated ? (
+                        <>
+                            <Button variant="ghost" size="sm" className="text-xs md:text-sm px-2 md:px-3" asChild>
+                                <Link href="/profile" className="inline-flex items-center gap-2">
+                                    <UserIcon className="size-4" />
+                                    <span>Profilim</span>
+                                </Link>
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-xs md:text-sm px-2 md:px-4"
+                                onClick={handleLogout}
+                            >
+                                Çıkış Yap
+                            </Button>
+                        </>
                     ) : (
                         <>
                             <Button variant="outline" size="sm" className="text-xs md:text-sm px-2 md:px-4" asChild>

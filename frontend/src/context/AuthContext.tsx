@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { getAuthStatus, logout as authLogout } from "@/services/auth/auth.client";
+import { getAuthStatus, logout as authLogout } from "@/lib/auth.client";
 
 interface AuthContextType {
     isAuthenticated: boolean;
