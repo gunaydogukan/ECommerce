@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { loginServer } from "@/services/auth/auth.server";
-import { setToken } from "@/lib/auth.client";
 
 export default function LoginForm() {
     const router = useRouter();

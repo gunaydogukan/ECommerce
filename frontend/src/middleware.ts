@@ -14,9 +14,8 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     const { pathname } = request.nextUrl;
 
-    console.log("token:", token, "pathname:", pathname);
+    console.log("dısardaım");
 
-    // Public
     if (matchesRoute(pathname, PUBLIC_ROUTES)) {
         return NextResponse.next();
     }
@@ -32,6 +31,7 @@ export function middleware(request: NextRequest) {
         if (!token) {
             return NextResponse.redirect(new URL("/auth/login", request.url));
         }
+        console.log("icerdeyim")
         return NextResponse.next();
     }
 
