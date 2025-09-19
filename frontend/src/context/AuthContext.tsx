@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
-import { getAuthStatus, logout as authLogout } from "@/lib/auth.client";
+import { createContext, useState } from "react";
+import { logoutServer } from "@/services/auth/logout.server";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -11,15 +11,17 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+export function AuthProvider({
+                                 children,
+                                 initialAuth = false,
+                             }: {
+    children: React.ReactNode;
+    initialAuth?: boolean;
+}) {
+    const [isAuthenticated, setIsAuthenticated] = useState(initialAuth);
 
-    useEffect(() => {
-        setIsAuthenticated(getAuthStatus());
-    }, []);
-
-    const logout = () => {
-        authLogout();
+    const logout = async () => {
+        await logoutServer();
         setIsAuthenticated(false);
     };
 

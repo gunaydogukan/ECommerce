@@ -1,8 +1,7 @@
 import "./globals.css";
 import type {Metadata} from "next";
 import {Navbar} from "@/components/layout/navbar";
-//import {Provider} from 'jotai';
-import {AuthProvider} from "@/context/AuthContext";
+import Provider from "@/context/providers";
 
 export const metadata: Metadata = {
     title: "E-Commerce App",
@@ -14,10 +13,10 @@ export default function RootLayout({children,}: { children: React.ReactNode; })
     return (
         <html lang="en">
         <body className={`antialiased`}>
-        <AuthProvider>
+        <Provider>
             <Navbar/>
             {children}
-        </AuthProvider>
+        </Provider>
         </body>
         </html>
     );
