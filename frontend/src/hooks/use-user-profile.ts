@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getMeClient } from "@/services/user/user.client";
+import { getMeServer } from "@/services/user/user.server";
 import { UserProfile } from "@/services/user/types";
 
 export function useUserProfile() {
@@ -10,7 +10,7 @@ export function useUserProfile() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        getMeClient()
+        getMeServer()
             .then((data) => {
                 setUser(data);
                 setError(null);

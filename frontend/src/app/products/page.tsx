@@ -1,26 +1,16 @@
-"use client";
+"use server";
 
-import { useProducts } from "@/hooks/use-products";
+import { getProductsServer } from "@/services/product/product.server";
 import { ProductGrid } from "@/components/products/product-grid";
-import { ErrorMessage } from "@/components/common/error-message";
 
-export default function ProductsPage() {
-    const { products, loading, error, refetch } = useProducts();
+// export const revalidate = 60; // 60 sn'de bir yeniden oluştur
 
-    if (error) {
-        return (
-            <ErrorMessage 
-                message={error}
-                onRetry={refetch}
-            />
-        );
-    }
+export default async function ProductsPage() {
+    const products = await getProductsServer();
 
     return (
-        <div>
-            <div className="mb-6">
-            </div>
-            <ProductGrid products={products} loading={loading} />
-        </div>
+        <main className="container mx-auto py-8">
+            <ProductGrid products={products} />
+        </main>
     );
 }
