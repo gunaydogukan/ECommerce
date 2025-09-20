@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 
 interface AddToCartButtonProps {
     productId: number;
@@ -10,8 +11,14 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     const handleAddToCart = async () => {
+        if (!isAuthenticated) {
+            alert("Sepete eklemek için giriş yapmalısınız!");
+            return;
+        }
+
         setIsLoading(true);
         try {
             console.log(`Ürün ${productId} sepete eklendi`);
@@ -23,8 +30,8 @@ export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
     };
 
     return (
-        <Button 
-            size="sm" 
+        <Button
+            size="sm"
             onClick={handleAddToCart}
             disabled={disabled || isLoading}
         >

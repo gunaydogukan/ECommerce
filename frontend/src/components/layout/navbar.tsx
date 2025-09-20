@@ -1,68 +1,96 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "@/hooks/use-auth";
-import { User as UserIcon } from "lucide-react";
+import { User as UserIcon, ShoppingCart } from "lucide-react";
+import {
+    NavigationMenu,
+    NavigationMenuList,
+    NavigationMenuItem,
+    NavigationMenuTrigger,
+    NavigationMenuContent,
+    NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 export function Navbar() {
-    const router = useRouter();
     const { isAuthenticated, logout } = useAuth();
-
-    const handleLogout = () => {
-        logout();
-        router.push(ROUTES.HOME);
-    };
 
     return (
         <nav className="w-full border-b bg-white shadow-sm">
-            <div className="flex items-center justify-between px-4 py-3 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+            <div className="flex items-center justify-between px-6 py-3">
                 {/* Logo */}
-                <Link href={ROUTES.HOME} className="text-lg md:text-xl font-bold text-blue-600">
+                <Link
+                    href={ROUTES.HOME}
+                    className="text-lg md:text-xl font-bold text-blue-600"
+                >
                     apptotech ecommerce
                 </Link>
 
-                {/* Menu */}
-                <div className="flex items-center space-x-2 md:space-x-6">
-                    <Link href={ROUTES.PRODUCTS} className="text-sm md:text-base text-gray-700 hover:text-blue-600 transition-colors">
-                        Ürünler
-                    </Link>
-                    <Link href={ROUTES.ABOUT} className="text-sm md:text-base text-gray-700 hover:text-blue-600 transition-colors">
-                        Hakkımızda
-                    </Link>
-                    <Link href={ROUTES.CONTACT} className="text-sm md:text-base text-gray-700 hover:text-blue-600 transition-colors">
-                        İletişim
-                    </Link>
-                </div>
+                <NavigationMenu>
+                    <NavigationMenuList>
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Ürünler</NavigationMenuTrigger>
+                            <NavigationMenuContent className="p-4">
+                                <div className="grid gap-3 w-[200px]">
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/products?category=erkek" className="block">
+                                            Erkek Giyim
+                                        </Link>
+                                    </NavigationMenuLink>
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/products?category=kadin" className="block">
+                                            Kadın Giyim
+                                        </Link>
+                                    </NavigationMenuLink>
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/products?category=aksesuar" className="block">
+                                            Aksesuar
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </div>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
 
-                {/* Actions - Conditional based on auth status */}
-                <div className="flex items-center space-x-2 md:space-x-3">
-                    {isAuthenticated ? (
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link href={ROUTES.ABOUT}>Hakkımızda</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link href={ROUTES.CONTACT}>İletişim</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
+                </NavigationMenu>
+
+                <div className="flex items-center gap-4">
+                    {isAuthenticated && (
                         <>
-                            <Button variant="ghost" size="sm" className="text-xs md:text-sm px-2 md:px-3" asChild>
-                                <Link href="/profile" className="inline-flex items-center gap-2">
-                                    <UserIcon className="size-4" />
-                                    <span>Profilim</span>
-                                </Link>
-                            </Button>
+                            <Link href={ROUTES.CART}>
+                                <ShoppingCart className="w-5 h-5 text-gray-700 hover:text-blue-600" />
+                            </Link>
                             <Button
-                                variant="outline"
+                                variant="ghost"
                                 size="sm"
-                                className="text-xs md:text-sm px-2 md:px-4"
-                                onClick={handleLogout}
+                                className="inline-flex items-center gap-2"
+                                onClick={logout}
                             >
-                                Çıkış Yap
+                                <UserIcon className="w-4 h-4" />
+                                Çıkış
                             </Button>
                         </>
-                    ) : (
+                    )}
+                    {!isAuthenticated && (
                         <>
-                            <Button variant="outline" size="sm" className="text-xs md:text-sm px-2 md:px-4" asChild>
+                            <Button variant="outline" size="sm" asChild>
                                 <Link href={ROUTES.LOGIN}>Giriş Yap</Link>
                             </Button>
-                            <Button size="sm" className="text-xs md:text-sm px-2 md:px-4" asChild>
-                                <Link href="/auth/register">Kayıt Ol</Link>
+                            <Button size="sm" asChild>
+                                <Link href={ROUTES.REGISTER}>Kayıt Ol</Link>
                             </Button>
                         </>
                     )}

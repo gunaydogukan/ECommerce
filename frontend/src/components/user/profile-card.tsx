@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Mail, Phone, User as UserIcon, Copy, Check, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUserProfile } from "@/hooks/use-user-profile";
+import { UserProfile } from "@/services/user/types";
 
 function getInitials(first?: string, last?: string) {
     const f = (first || "").trim();
@@ -12,18 +12,21 @@ function getInitials(first?: string, last?: string) {
     return `${f?.[0] ?? ""}${l?.[0] ?? ""}`.toUpperCase();
 }
 
-export default function ProfileCard() {
-    const { user, loading, error } = useUserProfile();
+interface ProfileCardProps {
+    user: UserProfile;
+}
+
+export default function ProfileCard({ user }: ProfileCardProps) {
     const [copied, setCopied] = useState<"email" | "phone" | null>(null);
 
     const fullName = useMemo(
-        () => [user?.firstName, user?.lastName].filter(Boolean).join(" "),
-        [user?.firstName, user?.lastName]
+        () => [user.firstName, user.lastName].filter(Boolean).join(" "),
+        [user.firstName, user.lastName]
     );
 
     const initials = useMemo(
-        () => getInitials(user?.firstName, user?.lastName),
-        [user?.firstName, user?.lastName]
+        () => getInitials(user.firstName, user.lastName),
+        [user.firstName, user.lastName]
     );
 
     const copyToClipboard = async (text: string, key: "email" | "phone") => {
@@ -31,45 +34,8 @@ export default function ProfileCard() {
             await navigator.clipboard.writeText(text);
             setCopied(key);
             setTimeout(() => setCopied(null), 1500);
-        } catch {
-        }
+        } catch {}
     };
-
-    if (loading) return (
-        <div className="w-full max-w-2xl mx-auto">
-            <div className="animate-pulse">
-                <div className="bg-white rounded-xl shadow-lg p-8">
-                    <div className="flex items-start gap-6 mb-8">
-                        <div className="size-24 rounded-full bg-gray-200" />
-                        <div className="flex-1 space-y-3">
-                            <div className="h-8 bg-gray-200 rounded w-48" />
-                            <div className="h-5 bg-gray-200 rounded w-32" />
-                        </div>
-                    </div>
-                    <div className="space-y-6">
-                        <div className="h-20 bg-gray-200 rounded-lg" />
-                        <div className="h-20 bg-gray-200 rounded-lg" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
-    if (error) return (
-        <div className="w-full max-w-2xl mx-auto">
-            <div className="text-center p-8 bg-red-50 rounded-xl border border-red-200">
-                <p className="text-red-600 text-lg">{error}</p>
-            </div>
-        </div>
-    );
-
-    if (!user) return (
-        <div className="w-full max-w-2xl mx-auto">
-            <div className="text-center p-8 bg-gray-50 rounded-xl border">
-                <p className="text-gray-600 text-lg">Kullanıcı bulunamadı.</p>
-            </div>
-        </div>
-    );
 
     return (
         <div className="w-full max-w-2xl mx-auto">
@@ -80,9 +46,9 @@ export default function ProfileCard() {
                             <div className="relative">
                                 <div className="size-24 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                                     <div className="size-full rounded-full bg-white grid place-items-center">
-                                        <span className="text-2xl font-bold text-gray-700">
-                                            {initials}
-                                        </span>
+                    <span className="text-2xl font-bold text-gray-700">
+                      {initials}
+                    </span>
                                     </div>
                                 </div>
                                 <div className="absolute -bottom-1 -right-1 size-8 rounded-full bg-green-500 border-3 border-white grid place-items-center">
@@ -94,9 +60,7 @@ export default function ProfileCard() {
                                 <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-3">
                                     {fullName || "Kullanıcı"}
                                 </h1>
-                                <p className="text-gray-500 text-sm">
-                                    Profil Bilgileri
-                                </p>
+                                <p className="text-gray-500 text-sm">Profil Bilgileri</p>
                             </div>
                         </div>
 
@@ -111,6 +75,7 @@ export default function ProfileCard() {
                 </div>
 
                 <div className="px-8 pb-8 space-y-6">
+                    {/* E-posta */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -138,9 +103,9 @@ export default function ProfileCard() {
                                         <Copy className="size-4 text-gray-600" />
                                     )}
                                 </Button>
-                                <Button 
-                                    asChild 
-                                    size="sm" 
+                                <Button
+                                    asChild
+                                    size="sm"
                                     className="bg-blue-600 hover:bg-blue-700 text-white px-4"
                                 >
                                     <a href={`mailto:${user.email}`}>E-posta Gönder</a>
@@ -149,6 +114,7 @@ export default function ProfileCard() {
                         </div>
                     </div>
 
+                    {/* Telefon */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -177,9 +143,9 @@ export default function ProfileCard() {
                                             <Copy className="size-4 text-gray-600" />
                                         )}
                                     </Button>
-                                    <Button 
-                                        asChild 
-                                        size="sm" 
+                                    <Button
+                                        asChild
+                                        size="sm"
                                         variant="secondary"
                                         className="px-4 border-gray-300"
                                     >
