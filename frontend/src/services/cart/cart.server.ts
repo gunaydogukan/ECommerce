@@ -51,3 +51,46 @@ export async function addToCartServer(
     const response: AddToCartApiResponse = await res.json();
     return response.data;
 }
+
+export async function updateCartServer(
+    id: number,
+    quantity: number
+): Promise<CartItem> {
+    const token = await getSessionToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ cartId: id, quantity }),
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Sepet güncellenemedi");
+    }
+
+    const response: { data: CartItem } = await res.json();
+    return response.data;
+}
+
+export async function removeFromCartServer(id: number): Promise<void> {
+    const token = await getSessionToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}/${id}`, {
+        method: "DELETE",
+        headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+    });
+
+    if (!res.ok) {
+        if (res.status === 400 || res.status === 404) {
+            return;
+        }
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Sepet öğesi silinemedi");
+    }
+}

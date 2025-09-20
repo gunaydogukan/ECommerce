@@ -20,5 +20,10 @@ export interface AddToCartApiResponse {
     message?: string;
 }
 
+export interface UpdateCartPayload {
+    cartId: number;
+    quantity: number;
+}
+
 export type CartApiResponse = ApiResponse<CartItem[]>;
 
