@@ -1,8 +1,10 @@
+"use server"
+
 import { getMyCartServer } from "@/services/cart/cart.server";
 import { CartList } from "@/components/cart/cart-list";
 
 export default async function CartPage() {
-    const cart = await getMyCartServer(); // server-side fetch
+    const cart = await getMyCartServer();
 
     return (
         <div className="p-8">
