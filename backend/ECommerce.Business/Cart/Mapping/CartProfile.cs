@@ -11,7 +11,8 @@ namespace ECommerce.Business.Cart.Mapping
         public CartProfile()
         {
             // Command -> DTO
-            CreateMap<AddToCartCommand, CartCreateDto>();
+            CreateMap<AddToCartCommand, CartCreateDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
             CreateMap<UpdateCartCommand, CartUpdateDto>();
 
             CreateMap<UpdateCartCommand, Entities.Orders.Cart>();
