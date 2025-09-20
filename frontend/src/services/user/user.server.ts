@@ -1,22 +1,20 @@
 "use server";
 
-import { API_ENDPOINTS } from "@/lib/constants";
 import { BASE_URL } from "@/lib/config";
+import { API_ENDPOINTS } from "@/lib/constants";
 import { GetMeApiResponse, UserProfile } from "./types";
-//import { getToken } from "@/lib/auth.client";
+import { getCookieToken } from "@/lib/getCookie.server";
 
 export async function getMeServer(): Promise<UserProfile> {
-    //const token = getToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.USERS}/me`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            //...(token ? { Authorization: `Bearer ${token}` } : {}),
+            Authorization: `Bearer ${await getCookieToken()}`,
         },
-        cache: "no-store",
     });
-    console.log(res);
+
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
         throw new Error(error?.message || "Profil bilgileri alınamadı");

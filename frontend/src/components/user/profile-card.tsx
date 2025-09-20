@@ -74,7 +74,6 @@ export default function ProfileCard() {
     return (
         <div className="w-full max-w-2xl mx-auto">
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                {/* Header Section */}
                 <div className="relative p-8 pb-6">
                     <div className="flex items-start justify-between mb-6">
                         <div className="flex items-start gap-6">
@@ -111,9 +110,7 @@ export default function ProfileCard() {
                     </div>
                 </div>
 
-                {/* Contact Information */}
                 <div className="px-8 pb-8 space-y-6">
-                    {/* Email Section */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -152,7 +149,6 @@ export default function ProfileCard() {
                         </div>
                     </div>
 
-                    {/* Phone Section */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
