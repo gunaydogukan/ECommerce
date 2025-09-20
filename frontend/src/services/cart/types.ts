@@ -10,19 +10,15 @@ export interface CartItem {
     subtotal: number;
 }
 
-export type CartApiResponse = ApiResponse<CartItem[]>;
-
 export interface AddToCartPayload {
     productId: number;
     quantity: number;
 }
 
-
-export interface UpdateCartPayload {
-    cartId: number;
-    quantity: number;
+export interface AddToCartApiResponse {
+    data: CartItem;
+    message?: string;
 }
 
-export type UpdateCartApiResponse = ApiResponse<CartItem>;
-export type AddToCartApiResponse = ApiResponse<CartItem>;
-export type RemoveFromCartApiResponse = ApiResponse<string>;
+export type CartApiResponse = ApiResponse<CartItem[]>;
+

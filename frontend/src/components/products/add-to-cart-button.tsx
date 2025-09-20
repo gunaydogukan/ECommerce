@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
+import { addToCartServer } from "@/services/cart/cart.server";
 
 interface AddToCartButtonProps {
     productId: number;
@@ -19,9 +20,11 @@ export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
             return;
         }
 
-        setIsLoading(true);
         try {
-            console.log(`Ürün ${productId} sepete eklendi`);
+            setIsLoading(true);
+
+            await addToCartServer({ productId, quantity: 1 });
+
         } catch (error) {
             console.error('Sepete ekleme hatası:', error);
         } finally {
