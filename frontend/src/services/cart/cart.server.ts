@@ -3,7 +3,7 @@
 import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
 import { getSessionToken } from "@/lib/cookie.server";
-import { CartApiResponse, CartItem } from "./types";
+import {AddToCartApiResponse, AddToCartPayload, CartApiResponse, CartItem} from "./types";
 
 
 export async function getMyCartServer(): Promise<CartItem[]> {
@@ -26,5 +26,28 @@ export async function getMyCartServer(): Promise<CartItem[]> {
     }
 
     const response: CartApiResponse = await res.json();
+    return response.data;
+}
+
+export async function addToCartServer(
+    payload: AddToCartPayload
+): Promise<CartItem> {
+    const token = await getSessionToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Sepete ekleme başarısız");
+    }
+
+    const response: AddToCartApiResponse = await res.json();
     return response.data;
 }
