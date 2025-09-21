@@ -1,7 +1,7 @@
 "use server";
 
 import { getProductsServer } from "@/services/product/product.server";
-import { ProductGrid } from "@/components/products/product-grid";
+import { ProductGrid } from "@/components/products/list/product-grid";
 
 // export const revalidate = 60; // 60 sn'de bir yeniden oluştur
 

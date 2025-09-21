@@ -1,16 +1,41 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Product } from "@/services/product/types";
-import { AddToCartButton } from "./add-to-cart-button";
+import { AddToCartButton } from "./add/add-to-cart-button";
 import { PLACEHOLDER_IMAGE } from "@/lib/constants";
+import { Pencil, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { deleteProductServer } from "@/services/product/product.server";
+import { useState } from "react";
 
 interface ProductCardProps {
     product: Product;
     showAddToCart?: boolean;
+    canEdit?: boolean;
 }
 
-export function ProductCard({ product, showAddToCart = true }: ProductCardProps) {
+export function ProductCard({ product, showAddToCart = true, canEdit = false }: ProductCardProps) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+
+    async function handleDelete() {
+        if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
+
+        try {
+            setLoading(true);
+            console.log("asdasdasasdasdasa"+product.id);
+            await deleteProductServer(product.id);
+            router.refresh();
+        } catch (err: any) {
+            alert(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <Card className="flex flex-col overflow-hidden">
             <CardHeader className="p-0">
@@ -29,10 +54,37 @@ export function ProductCard({ product, showAddToCart = true }: ProductCardProps)
             </CardContent>
 
             <CardFooter className="flex items-center justify-between p-4">
-        <span className="text-lg font-bold text-blue-600">
-          {product.price.toLocaleString("tr-TR")} ₺
-        </span>
-                {showAddToCart && <AddToCartButton productId={product.id} />}
+                <span className="text-lg font-bold text-blue-600">
+                    {product.price.toLocaleString("tr-TR")} ₺
+                </span>
+
+                <div className="flex items-center gap-2">
+                    {showAddToCart && <AddToCartButton productId={product.id} />}
+                    {canEdit && (
+                        <>
+                            <Link href={`/products/${product.id}/edit`}>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="flex items-center gap-1 text-gray-600 hover:text-blue-600"
+                                >
+                                    <Pencil className="h-4 w-4" />
+                                    Düzenle
+                                </Button>
+                            </Link>
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={handleDelete}
+                                disabled={loading}
+                                className="flex items-center gap-1"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                                {loading ? "Siliniyor..." : "Sil"}
+                            </Button>
+                        </>
+                    )}
+                </div>
             </CardFooter>
         </Card>
     );

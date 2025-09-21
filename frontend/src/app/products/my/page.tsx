@@ -1,8 +1,8 @@
 "use server";
 
 import { getMyProductsServer } from "@/services/product/product.server";
-import { ProductGrid } from "@/components/products/product-grid";
-import AddProductButton from "@/components/products/add-product-button";
+import { ProductGrid } from "@/components/products/list/product-grid";
+import AddProductButton from "@/components/products/add/add-product-button";
 
 export default async function MyProductsPage() {
     const myProducts = await getMyProductsServer();
@@ -14,7 +14,7 @@ export default async function MyProductsPage() {
                 <AddProductButton />
             </div>
 
-            <ProductGrid products={myProducts} showAddToCart={false} />
+            <ProductGrid products={myProducts} canEdit={true} showAddToCart={false} />
         </div>
     );
 }

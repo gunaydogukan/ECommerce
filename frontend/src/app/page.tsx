@@ -1,5 +1,5 @@
 import { getProductsServer } from "@/services/product/product.server";
-import { ProductGrid } from "@/components/products/product-grid";
+import { ProductGrid } from "@/components/products/list/product-grid";
 
 export default async function HomePage() {
     const products = await getProductsServer();
