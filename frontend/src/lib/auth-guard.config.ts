@@ -15,5 +15,6 @@ export const PROTECTED_ROUTES: string[] = [
     "/orders",
     "/cart",
     "/products/my",
-    "/products/add"
+    "/products/add",
+    "/products/*/edit"
 ];

@@ -22,7 +22,7 @@ namespace ECommerce.Business.Products.Commands.Delete
             if (existing == null)
                 throw new BusinessException("Ürün bulunamadı.");
 
-            await productRepo.DeleteAsync(existing);
+            await productRepo.SoftDeleteAsync(existing);
             await _uow.SaveChangesAsync(ct);
 
             return true;
