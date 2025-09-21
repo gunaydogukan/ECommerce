@@ -31,7 +31,8 @@ namespace ECommerce.Business.Cart.Queries.GetMyCart
 
             var carts = await cartRepo.GetAllWithAsync(
                 q => q.Where(c => c.UserId == request.UserId)
-                    .Include(c => c.Product),
+                    .Include(c => c.Product)
+                    .OrderBy(c => c.CreatedAt), 
                 cancellationToken
             );
 

@@ -2,7 +2,8 @@
 
 import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
-import type { Product, ProductsResponse } from "./types";
+import {Product, ProductsResponse, AddProductRequest,ProductResponse} from "./types";
+import { getCookieToken } from "@/lib/getCookie.server";
 
 export async function getProductsServer(): Promise<Product[]> {
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}`, {
@@ -18,5 +19,51 @@ export async function getProductsServer(): Promise<Product[]> {
     }
 
     const data: ProductsResponse = await res.json();
+    return data.data;
+}
+
+export async function getMyProductsServer(): Promise<Product[]> {
+    const token = await getCookieToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}/my`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+    });
+
+    if (!res.ok) {
+        if (res.status === 400 || res.status === 404) {
+            return [];
+        }
+
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message || "Kendi ürünlerin getirilemedi");
+    }
+
+    const data: ProductsResponse = await res.json();
+    return data.data;
+}
+
+export async function addProductServer(payload: AddProductRequest): Promise<Product> {
+    const token = await getCookieToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message || "Ürün eklenemedi");
+    }
+
+    const data: ProductResponse = await res.json();
     return data.data;
 }

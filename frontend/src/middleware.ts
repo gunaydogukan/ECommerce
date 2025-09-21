@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { PUBLIC_ROUTES, AUTH_ROUTES, PROTECTED_ROUTES } from "@/lib/auth-guard.config";
 
-function matchesRoute(pathname: string, routes: string[]) {
+function matchesRoute(pathname: string, routes: string[], exact: boolean = false) {
     return routes.some((r) =>
         r === "/"
             ? pathname === "/"
-            : pathname === r || pathname.startsWith(`${r}/`)
+            : exact
+                ? pathname === r
+                : pathname === r || pathname.startsWith(`${r}/`)
     );
 }
 
@@ -16,7 +18,7 @@ export function middleware(request: NextRequest) {
 
     console.log("dısardaım");
 
-    if (matchesRoute(pathname, PUBLIC_ROUTES)) {
+    if (matchesRoute(pathname, PUBLIC_ROUTES, true)) {
         return NextResponse.next();
     }
 
@@ -39,11 +41,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: [
-        "/auth/:path*",
-        "/profile/:path*",
-        "/orders/:path*",
-        "/cart/:path*",
-        "/admin/:path*",
-    ],
+    matcher: ["/:path*"],
 };

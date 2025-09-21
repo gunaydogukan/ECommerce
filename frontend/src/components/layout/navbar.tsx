@@ -13,6 +13,13 @@ import {
     NavigationMenuContent,
     NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
     const { isAuthenticated, logout } = useAuth();
@@ -68,23 +75,42 @@ export function Navbar() {
                 </NavigationMenu>
 
                 <div className="flex items-center gap-4">
-                    {isAuthenticated && (
+                    {isAuthenticated ? (
                         <>
+                            {/* Sepet ikonu */}
                             <Link href={ROUTES.CART}>
                                 <ShoppingCart className="w-5 h-5 text-gray-700 hover:text-blue-600" />
                             </Link>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="inline-flex items-center gap-2"
-                                onClick={logout}
-                            >
-                                <UserIcon className="w-4 h-4" />
-                                Çıkış
-                            </Button>
+
+                            {/* Kullanıcı menüsü */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="inline-flex items-center gap-2"
+                                    >
+                                        <UserIcon className="w-4 h-4" />
+                                        Hesap
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-48">
+                                    <DropdownMenuItem asChild>
+                                        <Link href={ROUTES.PROFILE}>Profilim</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/products/my">Ürünlerim</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/products/add">Ürün Ekle</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={logout}>Çıkış Yap</DropdownMenuItem>
+                                </DropdownMenuContent>
+
+                            </DropdownMenu>
                         </>
-                    )}
-                    {!isAuthenticated && (
+                    ) : (
                         <>
                             <Button variant="outline" size="sm" asChild>
                                 <Link href={ROUTES.LOGIN}>Giriş Yap</Link>
