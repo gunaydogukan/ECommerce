@@ -40,7 +40,6 @@ export function CartList({ items }: CartListProps) {
         });
     };
 
-    // 🔹 Toplam fiyatı hesapla
     const totalPrice = useMemo(
         () => items.reduce((sum, item) => sum + item.subtotal, 0),
         [items]

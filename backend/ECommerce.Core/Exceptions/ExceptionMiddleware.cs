@@ -10,12 +10,10 @@ namespace ECommerce.Core.Exceptions;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public ExceptionMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task InvokeAsync(Microsoft.AspNetCore.Http.HttpContext context)
@@ -32,8 +30,6 @@ public class ExceptionMiddleware
 
     private async Task HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext context, Exception ex)
     {
-        _logger.LogError(ex, "Hata yakalandı: {Message}", ex.Message);
-
         context.Response.ContentType = "application/json";
 
         HttpStatusCode statusCode;

@@ -6,13 +6,18 @@ export interface Product {
     description: string;
     price: number;
     imageUrl?: string;
+    userId: number;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
-export interface ProductsResponse {
-    data: Product[];
-    total: number;
-    page: number;
-    limit: number;
+export interface AddProductRequest {
+    categoryId: number;
+    name: string;
+    description?: string;
+    price: number;
 }
 
-export type ProductResponse = ApiResponse<ProductsResponse>;
+export interface ProductsResponse extends ApiResponse<Product[]> {}
+
+export interface ProductResponse extends ApiResponse<Product> {}

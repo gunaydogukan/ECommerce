@@ -4,11 +4,10 @@ import { getMeServer } from "@/services/user/user.server";
 import ProfileCard from "@/components/user/profile-card";
 
 export default async function ProfilePage() {
-    const user = await getMeServer(); // fetch tamamen server-side
+    const user = await getMeServer();
 
     return (
-        <div className="mx-auto max-w-2xl px-4 md:px-0 py-10">
-            {/* user verisini props olarak client component'e geçiriyoruz */}
+        <div className="mx-auto max-w-4xl px-4 md:px-0 py-10">
             <ProfileCard user={user} />
         </div>
     );

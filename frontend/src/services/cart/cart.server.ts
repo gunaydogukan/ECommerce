@@ -5,7 +5,6 @@ import { API_ENDPOINTS } from "@/lib/constants";
 import { getSessionToken } from "@/lib/cookie.server";
 import {AddToCartApiResponse, AddToCartPayload, CartApiResponse, CartItem} from "./types";
 
-
 export async function getMyCartServer(): Promise<CartItem[]> {
     const token = await getSessionToken();
 

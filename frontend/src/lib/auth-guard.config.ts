@@ -13,5 +13,7 @@ export const AUTH_ROUTES: string[] = [
 export const PROTECTED_ROUTES: string[] = [
     "/profile",
     "/orders",
-    "/cart"
+    "/cart",
+    "/products/my",
+    "/products/add"
 ];
