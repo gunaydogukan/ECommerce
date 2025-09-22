@@ -10,6 +10,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deleteProductServer } from "@/services/product/product.server";
 import { useState } from "react";
+import {BuyNowButton} from "@/components/products/buy-now-button";
 
 interface ProductCardProps {
     product: Product;
@@ -54,12 +55,19 @@ export function ProductCard({ product, showAddToCart = true, canEdit = false }: 
             </CardContent>
 
             <CardFooter className="flex items-center justify-between p-4">
-                <span className="text-lg font-bold text-blue-600">
+                <span className="text-lg font-bold black">
                     {product.price.toLocaleString("tr-TR")} ₺
                 </span>
 
                 <div className="flex items-center gap-2">
-                    {showAddToCart && <AddToCartButton productId={product.id} />}
+                    <div className="flex items-center gap-1">
+                        {showAddToCart && (
+                            <div className="flex gap-2">
+                                <AddToCartButton productId={product.id} />
+                                <BuyNowButton productId={product.id} />
+                            </div>
+                        )}
+                    </div>
                     {canEdit && (
                         <>
                             <Link href={`/products/${product.id}/edit`}>

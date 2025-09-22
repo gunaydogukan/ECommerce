@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth";
 import { addToCartServer } from "@/services/cart/cart.server";
+import {useAtom} from "jotai";
+import {isAuthenticatedAtom} from "@/stores/auth-atom";
 
 interface AddToCartButtonProps {
     productId: number;
@@ -12,7 +13,7 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
-    const { isAuthenticated } = useAuth();
+    const [isAuthenticated] = useAtom(isAuthenticatedAtom);
 
     const handleAddToCart = async () => {
         if (!isAuthenticated) {
@@ -22,9 +23,8 @@ export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
 
         try {
             setIsLoading(true);
-
             await addToCartServer({ productId, quantity: 1 });
-
+            console.log("Eklendi");
         } catch (error) {
             console.error('Sepete ekleme hatası:', error);
         } finally {
@@ -35,6 +35,7 @@ export function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
     return (
         <Button
             size="sm"
+            className="text-xs px-2 py-1"
             onClick={handleAddToCart}
             disabled={disabled || isLoading}
         >

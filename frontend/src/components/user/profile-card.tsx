@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Mail, Phone, User as UserIcon, Copy, Check, Edit } from "lucide-react";
+import { useMemo } from "react";
+import { Mail, Phone, User as UserIcon, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/services/user/types";
 
@@ -17,8 +17,6 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ user }: ProfileCardProps) {
-    const [copied, setCopied] = useState<"email" | "phone" | null>(null);
-
     const fullName = useMemo(
         () => [user.firstName, user.lastName].filter(Boolean).join(" "),
         [user.firstName, user.lastName]
@@ -29,14 +27,6 @@ export default function ProfileCard({ user }: ProfileCardProps) {
         [user.firstName, user.lastName]
     );
 
-    const copyToClipboard = async (text: string, key: "email" | "phone") => {
-        try {
-            await navigator.clipboard.writeText(text);
-            setCopied(key);
-            setTimeout(() => setCopied(null), 1500);
-        } catch {}
-    };
-
     return (
         <div className="w-full max-w-2xl mx-auto">
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
@@ -46,9 +36,9 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                             <div className="relative">
                                 <div className="size-24 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                                     <div className="size-full rounded-full bg-white grid place-items-center">
-                    <span className="text-2xl font-bold text-gray-700">
-                      {initials}
-                    </span>
+                                        <span className="text-2xl font-bold text-gray-700">
+                                            {initials}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="absolute -bottom-1 -right-1 size-8 rounded-full bg-green-500 border-3 border-white grid place-items-center">
@@ -75,7 +65,6 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                 </div>
 
                 <div className="px-8 pb-8 space-y-6">
-                    {/* E-posta */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -89,32 +78,9 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    className="size-9 border-gray-300"
-                                    onClick={() => copyToClipboard(user.email, "email")}
-                                    title="E-postayı kopyala"
-                                >
-                                    {copied === "email" ? (
-                                        <Check className="size-4 text-green-600" />
-                                    ) : (
-                                        <Copy className="size-4 text-gray-600" />
-                                    )}
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4"
-                                >
-                                    <a href={`mailto:${user.email}`}>E-posta Gönder</a>
-                                </Button>
-                            </div>
                         </div>
                     </div>
 
-                    {/* Telefon */}
                     <div className="border rounded-lg p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -129,29 +95,13 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                                 </div>
                             </div>
                             {user.phoneNumber ? (
-                                <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="size-9 border-gray-300"
-                                        onClick={() => copyToClipboard(user.phoneNumber, "phone")}
-                                        title="Telefonu kopyala"
-                                    >
-                                        {copied === "phone" ? (
-                                            <Check className="size-4 text-green-600" />
-                                        ) : (
-                                            <Copy className="size-4 text-gray-600" />
-                                        )}
-                                    </Button>
-                                    <Button
-                                        asChild
-                                        size="sm"
-                                        variant="secondary"
-                                        className="px-4 border-gray-300"
-                                    >
-                                        <a href={`tel:${user.phoneNumber}`}>Ara</a>
-                                    </Button>
-                                </div>
+                                <Button
+                                    asChild
+                                    size="sm"
+                                    variant="secondary"
+                                    className="px-4 border-gray-300"
+                                >
+                                </Button>
                             ) : (
                                 <div className="text-gray-400 ml-4">—</div>
                             )}

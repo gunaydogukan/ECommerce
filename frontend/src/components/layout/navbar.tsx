@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
-import { useAuth } from "@/hooks/use-auth";
 import { User as UserIcon, ShoppingCart } from "lucide-react";
 import {
     NavigationMenu,
@@ -20,9 +19,19 @@ import {
     DropdownMenuTrigger,
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {isAuthenticatedAtom} from "@/stores/auth-atom";
+import {useAtom} from "jotai";
+import {getCookieServer} from "@/lib/getCookie.server";
+import {router} from "next/client";
 
 export function Navbar() {
-    const { isAuthenticated, logout } = useAuth();
+    const [isAuthenticated, setIsAuthenticated] = useAtom(isAuthenticatedAtom);
+
+    const logout = async () => {
+        await getCookieServer();
+        setIsAuthenticated(false);
+        router.push("/auth/login");
+    };
 
     return (
         <nav className="w-full border-b bg-white shadow-sm">
@@ -103,6 +112,9 @@ export function Navbar() {
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/products/add">Ürün Ekle</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href={ROUTES.ORDERS}>Siparişlerim</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={logout}>Çıkış Yap</DropdownMenuItem>

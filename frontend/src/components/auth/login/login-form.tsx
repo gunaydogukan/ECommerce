@@ -1,17 +1,18 @@
 "use client";
 
+import { useAtom } from "jotai";
+import { isAuthenticatedAtom } from "@/stores/auth-atom";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useAuth } from "@/hooks/use-auth";
 import { loginServer } from "@/services/auth/auth.server";
 
 export default function LoginForm() {
     const router = useRouter();
-    const { setIsAuthenticated } = useAuth();
+    const [, setIsAuthenticated] = useAtom(isAuthenticatedAtom);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,8 +32,8 @@ export default function LoginForm() {
         try {
             setLoading(true);
             await loginServer({ email, password });
-
             setIsAuthenticated(true);
+
             router.push(ROUTES.HOME);
 
         } catch (err: any) {
