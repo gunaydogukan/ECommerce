@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
-import { User as UserIcon, ShoppingCart } from "lucide-react";
+import {User as UserIcon, ShoppingCart, Heart} from "lucide-react";
 import {
     NavigationMenu,
     NavigationMenuList,
@@ -86,6 +86,11 @@ export function Navbar() {
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>
+                            {/* Favoriler ikonu */}
+                            <Link href={ROUTES.FAVORITES}>
+                                <Heart className="w-5 h-5 text-gray-700 hover:text-red-500" />
+                            </Link>
+
                             {/* Sepet ikonu */}
                             <Link href={ROUTES.CART}>
                                 <ShoppingCart className="w-5 h-5 text-gray-700 hover:text-blue-600" />
@@ -115,6 +120,9 @@ export function Navbar() {
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href={ROUTES.ORDERS}>Siparişlerim</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href={ROUTES.SOLD}>Satış Yaptıklarım</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={logout}>Çıkış Yap</DropdownMenuItem>

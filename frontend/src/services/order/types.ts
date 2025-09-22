@@ -1,5 +1,4 @@
 import { ApiResponse } from "@/types/index";
-import { Product } from "@/services/product/types";
 
 export interface CreateOrderPayload {
     items: {
@@ -26,6 +25,24 @@ export interface OrderResponse {
     orderItems: OrderItemResponse[];
 }
 
+export interface SoldProductSale {
+    orderId: number;
+    buyerId: number;
+    buyerEmail: string;
+    quantity: number;
+    unitPrice: number;
+    subtotal: number;
+}
+
+export interface SoldProductResponse {
+    productId: number;
+    productName: string;
+    totalQuantity: number;
+    totalRevenue: number;
+    sales: SoldProductSale[];
+}
+
 export type CreateOrderApiResponse = ApiResponse<OrderResponse>;
 export type GetMyOrdersApiResponse = ApiResponse<OrderResponse[]>;
+export type GetSoldProductsApiResponse = ApiResponse<SoldProductResponse[]>;
 

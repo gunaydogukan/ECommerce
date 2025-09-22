@@ -13,15 +13,5 @@ namespace ECommerce.Core.Helpers.Security
 
             return int.Parse(userId);
         }
-
-        public static string? GetUserEmail(this ClaimsPrincipal user)
-        {
-            return user.FindFirst(ClaimTypes.Email)?.Value;
-        }
-
-        public static string? GetUserRole(this ClaimsPrincipal user)
-        {
-            return user.FindFirst(ClaimTypes.Role)?.Value;
-        }
     }
 }

@@ -1,17 +1,19 @@
-import { getProductsServer } from "@/services/product/product.server";
+"use server";
+
 import { getMyFavoritesServer } from "@/services/favorite/favorite.server";
-import { ProductGrid } from "@/components/products/list/product-grid";
+import { FavoriteList } from "@/components/favorites/favorite-list";
 import { FavoritesInitializer } from "@/components/products/favorites-initializer";
 
-export default async function HomePage() {
-    const products = await getProductsServer();
+export default async function FavoritesMyPage() {
     const favorites = await getMyFavoritesServer();
     const favoriteIds = favorites.map(f => f.productId);
 
     return (
         <main className="container mx-auto py-8">
+            <h1 className="text-2xl font-bold mb-6">Favorilerim</h1>
+
             <FavoritesInitializer favorites={favoriteIds} />
-            <ProductGrid products={products} />
+            <FavoriteList favorites={favorites} />
         </main>
     );
 }

@@ -8,6 +8,8 @@ export const ROUTES = {
     PROFILE: '/profile',
     CART: "/cart",
     ORDERS: "/orders/my",
+    SOLD: "/orders/sold",
+    FAVORITES: "/favorites/my",
 } as const;
 
 export const API_ENDPOINTS = {
@@ -15,7 +17,8 @@ export const API_ENDPOINTS = {
     AUTH: '/auth',
     USERS: '/users',
     CART: "/cart",
-    ORDERS: "/orders"
+    ORDERS: "/orders",
+    FAVORITES: "/favorites"
 } as const;
 
 export const PLACEHOLDER_IMAGE = "https://placehold.co/400x300?text=No+Image&font=roboto";

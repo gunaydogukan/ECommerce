@@ -20,33 +20,49 @@ namespace ECommerce.Business.Order.Queries.GetSoldProducts
             GetSoldProductsBySellerQuery request,
             CancellationToken ct)
         {
-            // Order repository al
             var orderRepo = _uow.Repository<Entities.Orders.Order>();
 
-            // Query’yi kur
-            var query = orderRepo.Query()
-                .Include(o => o.User) // buyer
+            var sales = await orderRepo.Query()
+                .Include(o => o.User) 
                 .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product);
-
-            var products = await query
-                .SelectMany(o => o.OrderItems, (o, oi) => new { o, oi })
-                .Where(x => x.oi.Product.UserId == request.SellerId)
-                .Select(x => new SoldProductDto
+                .ThenInclude(oi => oi.Product)
+                .Where(o => o.OrderItems.Any(oi => oi.Product.UserId == request.SellerId))
+                .SelectMany(o => o.OrderItems.Select(oi => new
                 {
-                    ProductId = x.oi.ProductId,
-                    ProductName = x.oi.Product.Name,
-                    Quantity = x.oi.Quantity,
-                    TotalRevenue = x.oi.Quantity * x.oi.UnitPrice,
-                    BuyerId = x.o.UserId,
-                    BuyerEmail = x.o.User.Email
-                })
+                    o.Id,
+                    BuyerId = o.UserId,
+                    BuyerEmail = o.User.Email,
+                    oi.ProductId,
+                    ProductName = oi.Product.Name,
+                    oi.Quantity,
+                    oi.UnitPrice
+                }))
                 .ToListAsync(ct);
 
-            if (products == null || products.Count == 0)
+            if (sales == null || sales.Count == 0)
                 throw new BusinessException("Satılan ürün bulunamadı.");
 
-            return products;
+            var grouped = sales
+                .GroupBy(s => new { s.ProductId, s.ProductName })
+                .Select(g => new SoldProductDto
+                {
+                    ProductId = g.Key.ProductId,
+                    ProductName = g.Key.ProductName,
+                    TotalQuantity = g.Sum(x => x.Quantity),
+                    TotalRevenue = g.Sum(x => x.Quantity * x.UnitPrice),
+                    Sales = g.Select(x => new SoldProductSaleDto
+                    {
+                        OrderId = x.Id,
+                        BuyerId = x.BuyerId,
+                        BuyerEmail = x.BuyerEmail,
+                        Quantity = x.Quantity,
+                        UnitPrice = x.UnitPrice,
+                        Subtotal = x.Quantity * x.UnitPrice
+                    }).ToList()
+                })
+                .ToList();
+
+            return grouped;
         }
     }
 }

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { deleteProductServer } from "@/services/product/product.server";
 import { useState } from "react";
 import {BuyNowButton} from "@/components/products/buy-now-button";
+import {AddToFavoriteButton} from "@/components/products/add/add-to-favorite-button";
 
 interface ProductCardProps {
     product: Product;
@@ -39,18 +40,21 @@ export function ProductCard({ product, showAddToCart = true, canEdit = false }: 
 
     return (
         <Card className="flex flex-col overflow-hidden">
-            <CardHeader className="p-0">
+            <CardHeader className="p-0 relative">
                 <img
                     src={product.imageUrl || PLACEHOLDER_IMAGE}
                     alt={product.name}
                     className="h-48 w-full object-cover"
                 />
+                <div className="absolute top-2 right-2">
+                    <AddToFavoriteButton productId={product.id} />
+                </div>
             </CardHeader>
 
             <CardContent className="p-4 flex-1">
                 <h3 className="text-lg font-semibold truncate">{product.name}</h3>
                 <p className="mt-1 text-sm text-gray-600 truncate">
-                    {product.description || "—"}
+                    {product.description || "Açıklama Yok"}
                 </p>
             </CardContent>
 

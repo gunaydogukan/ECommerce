@@ -13,7 +13,6 @@ namespace ECommerce.Core.Extensions
     {
         public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration config)
         {
-            // JwtOptions (appsettings.json → JwtOptions)
             services.Configure<JwtOptions>(config.GetSection("JwtOptions"));
 
             services.AddScoped<IJwtTokenService, JwtTokenService>();
