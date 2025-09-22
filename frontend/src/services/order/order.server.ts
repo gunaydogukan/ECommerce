@@ -2,7 +2,12 @@
 
 import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
-import {CreateOrderApiResponse, CreateOrderPayload, GetMyOrdersApiResponse} from "@/services/order/types";
+import {
+    CreateOrderApiResponse,
+    CreateOrderPayload,
+    GetMyOrdersApiResponse,
+    GetSoldProductsApiResponse
+} from "@/services/order/types";
 import { getCookieToken } from "@/lib/getCookie.server";
 
 export async function createOrderServer(payload: CreateOrderPayload): Promise<CreateOrderApiResponse> {
@@ -45,4 +50,24 @@ export async function getMyOrdersServer(): Promise<GetMyOrdersApiResponse> {
 
     const data: GetMyOrdersApiResponse = await res.json();
     return data;
+}
+
+export async function getSoldProductsServer(): Promise<GetSoldProductsApiResponse> {
+    const token = await getCookieToken();
+
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.ORDERS}/sold-products`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        cache: "no-store",
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error?.message || "Satılan ürünler getirilemedi");
+    }
+
+    return await res.json();
 }

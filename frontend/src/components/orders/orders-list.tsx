@@ -15,8 +15,17 @@ export default function OrdersList({orders}: OrdersListProps) {
         );
     }
 
+    const totalSpent = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+
     return (
         <div className="space-y-6">
+            <div className="border rounded-lg p-6 bg-green-50 shadow-sm">
+                <h2 className="text-lg font-semibold text-green-700">Toplam Harcama</h2>
+                <p className="text-2xl font-bold text-green-600">
+                    {totalSpent.toLocaleString("tr-TR")} ₺
+                </p>
+            </div>
+
             {orders.map((order) => (
                 <div
                     key={order.id}

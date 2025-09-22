@@ -4,11 +4,20 @@
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; } = null!;
-        public int Quantity { get; set; }
+
+        public int TotalQuantity { get; set; }
         public decimal TotalRevenue { get; set; }
 
-        // Alıcı bilgileri
+        public List<SoldProductSaleDto> Sales { get; set; } = new();
+    }
+
+    public class SoldProductSaleDto
+    {
+        public int OrderId { get; set; }
         public int BuyerId { get; set; }
         public string BuyerEmail { get; set; } = null!;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Subtotal { get; set; }
     }
 }
