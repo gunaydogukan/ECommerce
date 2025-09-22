@@ -1,7 +1,21 @@
-import { getSessionToken } from "@/lib/cookie.server";
-import { AuthProvider } from "@/context/AuthContext";
+"use client";
 
-export default async function Providers({ children }: { children: React.ReactNode }) {
-    const token = await getSessionToken();
-    return <AuthProvider initialAuth={!!token}>{children}</AuthProvider>;
+import { useEffect } from "react";
+import { useSetAtom } from "jotai";
+import { isAuthenticatedAtom } from "@/stores/auth-atom";
+
+export default function Providers({
+                                      children,
+                                      initialAuth = false,
+                                  }: {
+    children: React.ReactNode;
+    initialAuth?: boolean;
+}) {
+    const setIsAuthenticated = useSetAtom(isAuthenticatedAtom);
+
+    useEffect(() => {
+        setIsAuthenticated(initialAuth);
+    }, [initialAuth, setIsAuthenticated]);
+
+    return <>{children}</>;
 }

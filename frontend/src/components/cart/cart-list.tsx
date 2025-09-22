@@ -12,6 +12,7 @@ import {
     updateCartServer,
     removeFromCartServer,
 } from "@/services/cart/cart.server";
+import {CheckoutButton} from "@/components/cart/checkout-button";
 
 interface CartListProps {
     items: CartItem[];
@@ -55,7 +56,6 @@ export function CartList({ items }: CartListProps) {
 
     return (
         <div className="relative">
-            {/* Ürünler */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-24">
                 {items.map((item) => (
                     <Card
@@ -96,7 +96,7 @@ export function CartList({ items }: CartListProps) {
                                 <span className="text-gray-600">Adet:</span>
                                 <span className="font-medium">{item.quantity}</span>
                             </div>
-                            <div className="flex justify-between text-sm font-bold text-blue-600">
+                            <div className="flex justify-between text-sm font-bold text-black-600">
                                 <span>Toplam:</span>
                                 <span>{item.subtotal} ₺</span>
                             </div>
@@ -131,19 +131,12 @@ export function CartList({ items }: CartListProps) {
                 ))}
             </div>
 
-            {/* Sepet Özeti (sticky bottom bar) */}
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex items-center justify-between">
                 <div>
                     <p className="text-sm text-gray-500">Toplam Tutar</p>
-                    <p className="text-xl font-bold text-blue-600">{totalPrice} ₺</p>
+                    <p className="text-xl font-bold text-black-600">{totalPrice} ₺</p>
                 </div>
-                <Button
-                    size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6"
-                    onClick={() => alert("Ödeme sayfasına yönlendirilecek")}
-                >
-                    Hepsini Al
-                </Button>
+                <CheckoutButton />
             </div>
         </div>
     );
