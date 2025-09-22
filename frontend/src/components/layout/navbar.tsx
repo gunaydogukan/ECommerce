@@ -23,6 +23,7 @@ import {isAuthenticatedAtom} from "@/stores/auth-atom";
 import {useAtom} from "jotai";
 import {getCookieServer} from "@/lib/getCookie.server";
 import {router} from "next/client";
+import {categories} from "@/types";
 
 export function Navbar() {
     const [isAuthenticated, setIsAuthenticated] = useAtom(isAuthenticatedAtom);
@@ -30,7 +31,7 @@ export function Navbar() {
     const logout = async () => {
         await getCookieServer();
         setIsAuthenticated(false);
-        router.push("/auth/login");
+        await router.push("/auth/login");
     };
 
     return (
@@ -50,21 +51,21 @@ export function Navbar() {
                             <NavigationMenuTrigger>Ürünler</NavigationMenuTrigger>
                             <NavigationMenuContent className="p-4">
                                 <div className="grid gap-3 w-[200px]">
-                                    <NavigationMenuLink asChild>
-                                        <Link href="/products?category=erkek" className="block">
-                                            Erkek Giyim
-                                        </Link>
-                                    </NavigationMenuLink>
-                                    <NavigationMenuLink asChild>
-                                        <Link href="/products?category=kadin" className="block">
-                                            Kadın Giyim
-                                        </Link>
-                                    </NavigationMenuLink>
-                                    <NavigationMenuLink asChild>
-                                        <Link href="/products?category=aksesuar" className="block">
-                                            Aksesuar
-                                        </Link>
-                                    </NavigationMenuLink>
+                                    <div className="grid gap-3 w-[200px]">
+                                        {categories.map((cat) => (
+                                            <NavigationMenuLink asChild key={cat.id}>
+                                                <Link
+                                                    href={{
+                                                        pathname: ROUTES.PRODUCTS,
+                                                        query: { category: cat.id },
+                                                    }}
+                                                    className="block"
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        ))}
+                                    </div>
                                 </div>
                             </NavigationMenuContent>
                         </NavigationMenuItem>
@@ -86,17 +87,14 @@ export function Navbar() {
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>
-                            {/* Favoriler ikonu */}
                             <Link href={ROUTES.FAVORITES}>
                                 <Heart className="w-5 h-5 text-gray-700 hover:text-red-500" />
                             </Link>
 
-                            {/* Sepet ikonu */}
                             <Link href={ROUTES.CART}>
                                 <ShoppingCart className="w-5 h-5 text-gray-700 hover:text-blue-600" />
                             </Link>
 
-                            {/* Kullanıcı menüsü */}
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button
