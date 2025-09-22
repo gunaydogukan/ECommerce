@@ -34,6 +34,10 @@ export async function addFavoriteServer(
 export async function getMyFavoritesServer(): Promise<MyFavoriteResponse[]> {
     const token = await getCookieToken();
 
+    if(!token){
+        return [] ;
+    }
+
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.FAVORITES}/my`, {
         method: "GET",
         headers: {

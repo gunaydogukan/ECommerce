@@ -7,6 +7,7 @@ using ECommerce.Business.Products.Queries.GetProductsByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Controllers.Base;
+using ECommerce.Business.Products.Queries.GetProductsByCategory;
 using IResult = ECommerce.Core.Responses.Abstracts.IResult;
 using Microsoft.AspNetCore.Authorization;
 
@@ -30,6 +31,14 @@ namespace ECommerce.API.Controllers.Catalog
         {
             var products = await _mediator.Send(new GetAllProductsQuery(), ct);
             return Success(products, "Ürünler başarıyla getirildi.", 200);
+        }
+
+        [HttpGet("by-category/{categoryId}")]
+        [AllowAnonymous]
+        public async Task<IResult> GetByCategory(int categoryId, CancellationToken ct)
+        {
+            var products = await _mediator.Send(new GetProductsByCategoryQuery(categoryId), ct);
+            return Success(products, "Kategoriye göre ürünler başarıyla getirildi.", 200);
         }
 
         /// <summary>

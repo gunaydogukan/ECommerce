@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
+import {CategorySelect} from "@/components/common/category-select";
 
 export default function AddProductForm() {
     const { addProduct, loading, error } = useAddProduct();
@@ -35,13 +36,13 @@ export default function AddProductForm() {
             <Input name="name" placeholder="Ürün adı" required />
             <Textarea name="description" placeholder="Açıklama" />
             <Input type="number" name="price" placeholder="Fiyat" required />
-            <Input type="number" name="categoryId" placeholder="Kategori ID" required />
+
+            <CategorySelect required />
 
             <Button type="submit" disabled={loading} className="w-full">
                 {loading ? "Ekleniyor..." : "Ürün Ekle"}
             </Button>
-
-            {error && <p className="text-sm text-red-600">{error}</p>}
         </form>
+
     );
 }

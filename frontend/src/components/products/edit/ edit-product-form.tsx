@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateProductServer } from "@/services/product/product.server";
 import { Product } from "@/services/product/types";
 import { useRouter } from "next/navigation";
+import {CategorySelect} from "@/components/common/category-select";
 
 interface EditProductFormProps {
     product: Product;
@@ -48,7 +49,8 @@ export default function EditProductForm({ product, onSuccess }: EditProductFormP
             <Input name="name" defaultValue={product.name} required />
             <Textarea name="description" defaultValue={product.description || ""} />
             <Input type="number" name="price" defaultValue={product.price} required />
-            <Input type="number" name="categoryId" defaultValue={product.categoryId} required />
+
+            <CategorySelect defaultValue={product.categoryId} required />
 
             <Button type="submit" disabled={loading} className="w-full">
                 {loading ? "Güncelleniyor..." : "Kaydet"}

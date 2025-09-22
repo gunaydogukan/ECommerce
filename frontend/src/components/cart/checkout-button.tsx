@@ -16,6 +16,7 @@ export function CheckoutButton() {
         if (!isAuthenticated) {
             alert("Sepeti satın almak için giriş yapmalısınız!");
             router.push("/auth/login");
+            router.refresh();
             return;
         }
 

@@ -106,6 +106,23 @@ export async function getProductByIdServer(id: number): Promise<Product | null> 
     return data.data;
 }
 
+export async function getProductsByCategoryServer(categoryId: number): Promise<Product[]> {
+    const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}/by-category/${categoryId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+    });
+
+    if (!res.ok) {
+        if (res.status === 404) return [];
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message || "Kategoriye göre ürünler getirilemedi");
+    }
+
+    const data: ProductsResponse = await res.json();
+    return data.data;
+}
+
 export async function deleteProductServer(id: number): Promise<void> {
     const token = await getCookieToken();
 

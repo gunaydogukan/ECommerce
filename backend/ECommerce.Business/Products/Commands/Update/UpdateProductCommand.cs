@@ -16,7 +16,8 @@ namespace ECommerce.Business.Products.Commands.Update
 
         public IReadOnlyList<string> CacheKeys => new[]
         {
-            "all-products"
+            "all-products",
+            $"products-category-{CategoryId}" 
         };
     }
 }
