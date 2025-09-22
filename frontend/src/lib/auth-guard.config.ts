@@ -18,5 +18,5 @@ export const PROTECTED_ROUTES: string[] = [
     "/products/my",
     "/products/add",
     "/products/*/edit",
-    "/favorites/*",
+    "/favorites/my",
 ];
