@@ -3,7 +3,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Order.Queries.GetMy
 {
-    public class GetMyOrdersQuery : ICacheableQuery<IReadOnlyList<OrderResponseDto>>
+    public record GetMyOrdersQuery : ICacheableQuery<IReadOnlyList<OrderResponseDto>>
     {
         internal int UserId { get; set; }
 

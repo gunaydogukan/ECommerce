@@ -3,9 +3,7 @@ using ECommerce.Business.Cart.Commands.Add;
 using ECommerce.Business.Cart.Commands.Update;
 using ECommerce.Business.Cart.Commands.Delete;
 using ECommerce.Business.Cart.Queries.GetMyCart;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IResult = ECommerce.Core.Responses.Abstracts.IResult;
 

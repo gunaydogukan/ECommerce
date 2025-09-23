@@ -2,9 +2,7 @@
 using ECommerce.Business.Favorites.Commands.Add;
 using ECommerce.Business.Favorites.Commands.Delete;
 using ECommerce.Business.Favorites.Queries.GetMyFavorite;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IResult = ECommerce.Core.Responses.Abstracts.IResult;
 

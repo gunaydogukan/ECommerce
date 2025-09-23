@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.OrderItem.Dtos
 {
-    public class OrderItemResponseDto
+    public record OrderItemResponseDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; } = null!;

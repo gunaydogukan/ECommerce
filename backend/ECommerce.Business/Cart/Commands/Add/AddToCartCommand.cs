@@ -4,7 +4,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Cart.Commands.Add
 {
-    public class AddToCartCommand : IBaseCommand<CartResponseDto>, ICacheInvalidation
+    public record AddToCartCommand : IBaseCommand<CartResponseDto>, ICacheInvalidation
     {
         internal int UserId { get; set; }
         public int ProductId { get; set; }

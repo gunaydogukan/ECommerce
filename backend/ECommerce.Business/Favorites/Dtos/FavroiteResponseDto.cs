@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Favorites.Dtos;
 
-public class FavroiteResponseDto
+public record FavroiteResponseDto
 {
     public int Id { get; set; }
     public int ProductId { get; set; }

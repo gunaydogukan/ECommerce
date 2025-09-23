@@ -4,15 +4,8 @@ using MediatR;
 
 namespace ECommerce.Business.Users.Queries.GetUserById
 {
-    public class GetUserByIdQuery : ICacheableQuery<UserResponseDto>
+    public record GetUserByIdQuery(int Id) : ICacheableQuery<UserResponseDto>
     {
-        public int Id { get; }
-
-        public GetUserByIdQuery(int id)
-        {
-            Id = id;
-        }
-
         public string CacheKey => $"user-{Id}";
         public TimeSpan? Expiration => TimeSpan.FromMinutes(30);
     }

@@ -1,10 +1,9 @@
 ﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Caching;
-using MediatR;
 
 namespace ECommerce.Business.Products.Queries.GetAllProducts
 {
-    public class GetAllProductsQuery : ICacheableQuery<IReadOnlyList<ProductResponseDto>>
+    public record GetAllProductsQuery : ICacheableQuery<IReadOnlyList<ProductResponseDto>>
     {
         public string CacheKey => "all-products";
 

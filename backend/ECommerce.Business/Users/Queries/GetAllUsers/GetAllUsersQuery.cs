@@ -3,7 +3,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Users.Queries.GetAllUsers
 {
-    public class GetAllUsersQuery : ICacheableQuery<IReadOnlyList<UserResponseDto>>
+    public record GetAllUsersQuery : ICacheableQuery<IReadOnlyList<UserResponseDto>>
     {
         public string CacheKey => "all-users";
 

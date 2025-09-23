@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Cart.Dtos;
 
-public class CartCreateDto
+public record CartCreateDto
 {
     public int UserId { get; set; }
     public int ProductId { get; set; }

@@ -1,11 +1,10 @@
-﻿using MediatR;
-using ECommerce.Business.Favorites.Dtos;
+﻿using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Favorites.Commands.Add
 {
-    public class AddFavroiteCommand : IBaseCommand<FavroiteResponseDto>, ICacheInvalidation
+    public record AddFavroiteCommand : IBaseCommand<FavroiteResponseDto>, ICacheInvalidation
     {
         internal int UserId { get; set; }
         public int ProductId { get; set; }

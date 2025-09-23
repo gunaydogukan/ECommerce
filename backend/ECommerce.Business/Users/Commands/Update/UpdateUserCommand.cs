@@ -1,11 +1,10 @@
 ﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
-using MediatR;
 
 namespace ECommerce.Business.Users.Commands.Update
 {
-    public class UpdateUserCommand : IBaseCommand<UserResponseDto> , ICacheInvalidation
+    public record UpdateUserCommand : IBaseCommand<UserResponseDto> , ICacheInvalidation
     {
         internal int Id { get; set; }
         public string FirstName { get; set; } = null!;

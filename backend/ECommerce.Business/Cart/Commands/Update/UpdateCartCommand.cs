@@ -4,10 +4,5 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Business.Cart.Commands.Update
 {
-    public class UpdateCartCommand : IBaseCommand<CartResponseDto>
-    {
-        [FromRoute]
-        public int CartId { get; set; }
-        public int Quantity { get; set; }
-    }
+    public record UpdateCartCommand([property: FromRoute] int CartId, int Quantity) : IBaseCommand<CartResponseDto>;
 }

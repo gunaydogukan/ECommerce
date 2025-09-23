@@ -1,23 +1,20 @@
 ﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Business.Products.Commands.Update
 {
-    public class UpdateProductCommand : IBaseCommand<ProductResponseDto>
+    public record UpdateProductCommand([property: FromRoute] int Id) : IBaseCommand<ProductResponseDto>
     {
-        public int Id { get; set; }   // Güncellenecek ürün Id
-        public int CategoryId { get; set; }
-        public string Name { get; set; } = null!;
-        public string? Description { get; set; }
-        public decimal Price { get; set; }
-
-        //[JsonIgnore]
-        //public int UserId { get; set; }
+        public int? CategoryId { get; init; }
+        public string? Name { get; init; }
+        public string? Description { get; init; }
+        public decimal? Price { get; init; }
 
         public IReadOnlyList<string> CacheKeys => new[]
         {
             "all-products",
-            $"products-category-{CategoryId}" 
-        };
+            CategoryId is not null ? $"products-category-{CategoryId}" : ""
+        }.Where(x => !string.IsNullOrEmpty(x)).ToList();
     }
 }

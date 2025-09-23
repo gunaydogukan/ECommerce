@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Products.Dtos
 {
-    public class ProductCreateDto
+    public record ProductCreateDto
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }

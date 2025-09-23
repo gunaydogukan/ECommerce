@@ -2,7 +2,6 @@
 using ECommerce.Business.Order.Commands.Add;
 using ECommerce.Business.Order.Queries.GetMy;
 using ECommerce.Business.Order.Queries.GetSoldProducts;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using IResult = ECommerce.Core.Responses.Abstracts.IResult;

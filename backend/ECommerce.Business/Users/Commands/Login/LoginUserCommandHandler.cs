@@ -42,13 +42,12 @@ namespace ECommerce.Business.Users.Commands.Login
             // JWT üret
             var token = _jwtService.GenerateToken(user, roleName);
 
-            return new LoginResponseDto
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                FullName = $"{user.FirstName} {user.LastName}",
-                Token = token
-            };
+            return new LoginResponseDto(
+                user.Id,
+                user.Email,
+                $"{user.FirstName} {user.LastName}",
+                token
+            );
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Users.Dtos
 {
-    public class UserRegisterDto
+    public record UserRegisterDto
     {
         public string Email { get; set; } = null!;
         public string FirstName { get; set; } = null!;

@@ -4,7 +4,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Users.Commands.UpdateMe
 {
-    public class UpdateMeCommand : IBaseCommand<UserResponseDto>, ICacheInvalidation
+    public record UpdateMeCommand : IBaseCommand<UserResponseDto>, ICacheInvalidation
     {
         internal int Id { get; set; }
         public string FirstName { get; set; } = null!;

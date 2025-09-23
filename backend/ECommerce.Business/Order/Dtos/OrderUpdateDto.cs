@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Order.Dtos
 {
-    public class OrderUpdateDto
+    public record OrderUpdateDto
     {
         public string Status { get; set; } = null!;
     }

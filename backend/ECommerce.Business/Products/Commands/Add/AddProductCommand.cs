@@ -4,7 +4,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Products.Commands.Add
 {
-    public class AddProductCommand : IBaseCommand<ProductResponseDto>, ICacheInvalidation
+    public record AddProductCommand : IBaseCommand<ProductResponseDto>, ICacheInvalidation
     {
         public int CategoryId { get; set; }
         public string Name { get; set; } = null!;

@@ -5,7 +5,7 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Order.Commands.Add
 {
-    public class AddOrderCommand : IBaseCommand<OrderResponseDto>, ICacheInvalidation
+    public record AddOrderCommand : IBaseCommand<OrderResponseDto>, ICacheInvalidation
     {
         internal int UserId { get; set; }
         internal int? SellerId { get; set; }

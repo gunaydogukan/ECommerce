@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Products.Dtos
 {
-    public class ProductResponseDto
+    public record ProductResponseDto
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }

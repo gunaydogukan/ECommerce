@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Business.Order.Dtos
 {
-    public class SoldProductDto
+    public record SoldProductDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; } = null!;
@@ -11,7 +11,7 @@
         public List<SoldProductSaleDto> Sales { get; set; } = new();
     }
 
-    public class SoldProductSaleDto
+    public record SoldProductSaleDto
     {
         public int OrderId { get; set; }
         public int BuyerId { get; set; }

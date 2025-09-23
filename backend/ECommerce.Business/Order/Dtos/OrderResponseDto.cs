@@ -2,7 +2,7 @@
 
 namespace ECommerce.Business.Order.Dtos
 {
-    public class OrderResponseDto
+    public record OrderResponseDto
     {
         public int Id { get; set; }
         public int UserId { get; set; }
