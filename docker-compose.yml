@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:17
+    container_name: ecommerce-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ECommerce.API/Dockerfile
+    container_name: ecommerce-backend
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=db;Port=5432;Database=ecommerce;Username=postgres;Password=postgres
+      ConnectionStrings__Redis: redis:6379,connectTimeout=100,syncTimeout=100
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: ecommerce-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ecommerce-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app         
+      - /app/node_modules       
+    env_file:
+       - ./frontend/.env  
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
