@@ -39,7 +39,7 @@ namespace ECommerce.Business.Users.Commands.Update
             user.PhoneNumber = request.PhoneNumber;
 
             await userRepo.UpdateAsync(user, ct);
-            await _uow.SaveChangesAsync(ct);
+            //await _uow.SaveChangesAsync(ct);
 
             return _mapper.Map<UserResponseDto>(user);
         }

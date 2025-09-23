@@ -40,7 +40,7 @@ namespace ECommerce.Business.Products.Commands.Update
             _mapper.Map(request, existing);
 
             await productRepo.UpdateAsync(existing, ct);
-            await _uow.SaveChangesAsync(ct);
+            //await _uow.SaveChangesAsync(ct);
 
             var loaded = await productRepo.GetByIdAsync(request.Id, ct);
             return _mapper.Map<ProductResponseDto>(loaded);

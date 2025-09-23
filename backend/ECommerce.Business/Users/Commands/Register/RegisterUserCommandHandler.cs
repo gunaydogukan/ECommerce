@@ -23,7 +23,6 @@ namespace ECommerce.Business.Users.Commands.Register
 
         public async Task<UserResponseDto> Handle(RegisterUserCommand request, CancellationToken ct)
         {
-            // Email daha önce var mı kontrol et
             var userRepo = _uow.Repository<User>();
             var exists = await userRepo.Query()
                 .AnyAsync(u => u.Email == request.Email, ct);
@@ -34,19 +33,16 @@ namespace ECommerce.Business.Users.Commands.Register
             // Şifre hash
             var hashedPassword = PasswordHasher.HashPassword(request.Password);
 
-            // User oluştur
             var user = _mapper.Map<User>(request);
             user.PasswordHash = hashedPassword;
 
             await userRepo.AddAsync(user, ct);
 
-            // Default rol atama (örneğin RoleId = 1 => "User")
             var userRoleRepo = _uow.Repository<UserRole>();
             var userRole = new UserRole { User = user, RoleId = 1 };
             await userRoleRepo.AddAsync(userRole, ct);
 
-            // Değişiklikleri kaydet
-            await _uow.SaveChangesAsync(ct);
+            //await _uow.SaveChangesAsync(ct);
 
             return _mapper.Map<UserResponseDto>(user);
         }

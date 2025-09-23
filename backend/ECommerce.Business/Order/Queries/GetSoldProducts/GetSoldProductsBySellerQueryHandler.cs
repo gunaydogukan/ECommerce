@@ -1,6 +1,7 @@
 ﻿using ECommerce.Business.Order.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
+using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,16 +11,20 @@ namespace ECommerce.Business.Order.Queries.GetSoldProducts
         : IRequestHandler<GetSoldProductsBySellerQuery, IReadOnlyList<SoldProductDto>>
     {
         private readonly IUnitOfWork _uow;
+        private readonly IUserAccessor _userAccessor;
 
-        public GetSoldProductsBySellerQueryHandler(IUnitOfWork uow)
+        public GetSoldProductsBySellerQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
+            _userAccessor = userAccessor;
         }
 
         public async Task<IReadOnlyList<SoldProductDto>> Handle(
             GetSoldProductsBySellerQuery request,
             CancellationToken ct)
         {
+            request.SellerId = _userAccessor.GetUserId();
+            
             var orderRepo = _uow.Repository<Entities.Orders.Order>();
 
             var sales = await orderRepo.Query()

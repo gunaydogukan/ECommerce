@@ -25,20 +25,4 @@ public abstract class BaseController : ControllerBase
     {
         return new SuccessDataResult<T>(data, message, statusCode);
     }
-
-    /// <summary>
-    /// hata 
-    /// </summary>
-    protected IResult Error(string message = "Bir hata oluştu.", int statusCode = 400)
-    {
-        return new ErrorResult(message, statusCode);
-    }
-
-    /// <summary>
-    /// Data + hata 
-    /// </summary>
-    protected IResult Error<T>(T? data, string message = "Bir hata oluştu.", int statusCode = 400)
-    {
-        return new ErrorDataResult<T>(data, message, statusCode);
-    }
 }

@@ -27,7 +27,7 @@ namespace ECommerce.Business.Users.Commands.Delete
 
             await userRepo.DeleteAsync(user, ct);
 
-            await _uow.SaveChangesAsync(ct);
+            //await _uow.SaveChangesAsync(ct);
             return true;
         }
     }

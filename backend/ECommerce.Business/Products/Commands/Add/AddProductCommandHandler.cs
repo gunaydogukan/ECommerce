@@ -28,7 +28,7 @@ namespace ECommerce.Business.Products.Commands.Add
             entity.UserId = _userAccessor.GetUserId();
 
             await productRepo.AddAsync(entity, ct);
-            await _uow.SaveChangesAsync(ct);
+            //await _uow.SaveChangesAsync(ct);
 
             return _mapper.Map<ProductResponseDto>(entity);
         }
