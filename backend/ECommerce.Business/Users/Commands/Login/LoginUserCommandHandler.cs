@@ -12,11 +12,13 @@ namespace ECommerce.Business.Users.Commands.Login
     {
         private readonly IUnitOfWork _uow;
         private readonly IJwtTokenService _jwtService;
+        private readonly CookieHelper _cookieHelper;
 
-        public LoginUserCommandHandler(IUnitOfWork uow, IJwtTokenService jwtService)
+        public LoginUserCommandHandler(IUnitOfWork uow, IJwtTokenService jwtService, CookieHelper cookieHelper)
         {
             _uow = uow;
             _jwtService = jwtService;
+            _cookieHelper = cookieHelper;
         }
 
         public async Task<LoginResponseDto> Handle(LoginUserCommand request, CancellationToken ct)
@@ -32,21 +34,19 @@ namespace ECommerce.Business.Users.Commands.Login
             if (user == null)
                 throw new BusinessException("Geçersiz email veya şifre.");
 
-            // Şifre doğrulama
             var valid = PasswordHasher.VerifyPassword(request.Password, user.PasswordHash);
             if (!valid)
                 throw new BusinessException("Geçersiz email veya şifre.");
 
             var roleName = user.UserRole?.Role?.Name ?? "User";
 
-            // JWT üret
             var token = _jwtService.GenerateToken(user, roleName);
+            _cookieHelper.SetTokenCookie(token, DateTimeOffset.UtcNow.AddMinutes(120));
 
             return new LoginResponseDto(
                 user.Id,
                 user.Email,
-                $"{user.FirstName} {user.LastName}",
-                token
+                $"{user.FirstName} {user.LastName}"
             );
         }
     }

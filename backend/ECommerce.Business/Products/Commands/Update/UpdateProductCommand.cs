@@ -15,6 +15,6 @@ namespace ECommerce.Business.Products.Commands.Update
         {
             "all-products",
             CategoryId is not null ? $"products-category-{CategoryId}" : ""
-        }.Where(x => !string.IsNullOrEmpty(x)).ToList();
+        }.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
     }
 }

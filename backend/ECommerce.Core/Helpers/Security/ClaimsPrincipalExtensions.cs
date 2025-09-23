@@ -8,7 +8,7 @@ namespace ECommerce.Core.Helpers.Security
         {
             var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrWhiteSpace(userId))
                 throw new Exception("Kullanıcı kimliği bulunamadı.");
 
             return int.Parse(userId);

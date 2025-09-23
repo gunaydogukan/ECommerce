@@ -28,7 +28,7 @@ namespace ECommerce.Core.Behaviors
             {
                 // rediste var mı kontrol 
                 var cachedData = await _cache.GetStringAsync(cacheable.CacheKey, cancellationToken);
-                if (!string.IsNullOrEmpty(cachedData))
+                if (!string.IsNullOrWhiteSpace(cachedData))
                 {
                     return JsonSerializer.Deserialize<TResponse>(cachedData)!;
                 }

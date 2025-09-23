@@ -1,6 +1,6 @@
 ﻿using ECommerce.Core.Exceptions;
 using ECommerce.Core.Extensions;
-using ECommerce.DataAccess;
+using ECommerce.Core.Middlewares;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +21,8 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:3000") // Next.js frontend adresi
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 
@@ -36,8 +37,8 @@ app.UseCors("AllowFrontend");
 }*/
 
 app.UseHttpsRedirection();
+app.UseMiddleware<JwtCookieMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
-
 
 // JWT Authentication
 app.UseAuthentication();

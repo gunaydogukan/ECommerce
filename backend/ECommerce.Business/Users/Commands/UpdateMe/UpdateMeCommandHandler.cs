@@ -35,11 +35,11 @@ public class UpdateMeCommandHandler : IRequestHandler<UpdateMeCommand, UserRespo
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber;
 
-        if (!string.IsNullOrEmpty(request.NewPassword) && !string.IsNullOrEmpty(request.CurrentPassword))
+        if (!string.IsNullOrWhiteSpace(request.NewPassword) && !string.IsNullOrWhiteSpace(request.CurrentPassword))
         {
             var valid = PasswordHasher.VerifyPassword(request.CurrentPassword, user.PasswordHash);
 
-            if (string.IsNullOrEmpty(request.CurrentPassword) || !valid)
+            if (string.IsNullOrWhiteSpace(request.CurrentPassword) || !valid)
             {
                 throw new BusinessException("Şifreler uyuşmuyor");
             }

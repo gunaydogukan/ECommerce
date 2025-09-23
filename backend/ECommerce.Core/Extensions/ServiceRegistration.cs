@@ -11,6 +11,7 @@ namespace ECommerce.Core.Extensions
         {
             services.AddHttpContextAccessor();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<CookieHelper>();
 
             services.AddDataAccess(config);
             services.AddBusiness();
