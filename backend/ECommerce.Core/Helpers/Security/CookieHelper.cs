@@ -17,8 +17,8 @@ public class CookieHelper
         context?.Response.Cookies.Append("accessToken", token, new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
-            SameSite = SameSiteMode.Lax,
+            Secure = true,
+            SameSite = SameSiteMode.None,
             Expires = expires,
             IsEssential = true
         });
