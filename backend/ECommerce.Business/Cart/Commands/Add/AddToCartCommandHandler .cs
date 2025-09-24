@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Cart.Dtos;
+﻿using ECommerce.Business.Cart.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Helpers.Security;
 using MediatR;
@@ -11,16 +10,16 @@ namespace ECommerce.Business.Cart.Commands.Add
         : IRequestHandler<AddToCartCommand, CartResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public AddToCartCommandHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -31,31 +30,53 @@ namespace ECommerce.Business.Cart.Commands.Add
             var userId = _userAccessor.GetUserId();
 
             request.UserId = userId;
-            var dto = _mapper.Map<CartCreateDto>(request);
+            var dto = new CartCreateDto
+            {
+                UserId = userId,
+                ProductId = request.ProductId,
+                Quantity = request.Quantity
+            };
 
             var existing = await cartRepo.Query()
+                .Include(c=>c.Product)
                 .FirstOrDefaultAsync(c => c.UserId == dto.UserId && c.ProductId == dto.ProductId, cancellationToken);
 
             if (existing != null)
             {
                 existing.Quantity += dto.Quantity;
                 await cartRepo.UpdateAsync(existing, cancellationToken);
-                return _mapper.Map<CartResponseDto>(existing);
+                return ToResponseDto(existing);
             }
 
-            var entity = _mapper.Map<Entities.Orders.Cart>(dto);
+            var entity = new Entities.Orders.Cart
+            {
+                UserId = userId,
+                ProductId = request.ProductId,
+                Quantity = request.Quantity
+            };
+            
             await cartRepo.AddAsync(entity, cancellationToken);
 
-            var added = _mapper.Map<CartResponseDto>(entity);
-            //await _uow.SaveChangesAsync(cancellationToken);
-
             var loaded = await cartRepo.GetByIdWithAsync(
-                added.Id,
+                entity.Id,
                 q => q.Include(c => c.Product),
                 cancellationToken
             );
 
-            return _mapper.Map<CartResponseDto>(loaded) ?? added;
+            return ToResponseDto(loaded ?? entity);
+        }
+
+        private static CartResponseDto ToResponseDto(Entities.Orders.Cart cart)
+        {
+            return new CartResponseDto
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                ProductId = cart.ProductId,
+                ProductName = cart.Product?.Name ?? string.Empty,
+                UnitPrice = cart.Product?.Price ?? 0,
+                Quantity = cart.Quantity
+            };
         }
     }
 }

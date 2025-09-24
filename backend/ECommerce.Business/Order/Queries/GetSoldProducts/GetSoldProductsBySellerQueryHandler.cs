@@ -29,8 +29,7 @@ namespace ECommerce.Business.Order.Queries.GetSoldProducts
 
             var sales = await orderRepo.Query()
                 .Include(o => o.User) 
-                .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
                 .Where(o => o.OrderItems.Any(oi => oi.Product.UserId == request.SellerId))
                 .SelectMany(o => o.OrderItems.Select(oi => new
                 {

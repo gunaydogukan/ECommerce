@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Products.Dtos;
+﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Entities.Catalog;
@@ -12,12 +11,10 @@ namespace ECommerce.Business.Products.Queries.GetProductById
         : IRequestHandler<GetProductByIdQuery, ProductResponseDto?>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
 
-        public GetProductByIdQueryHandler(IUnitOfWork uow, IMapper mapper)
+        public GetProductByIdQueryHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _mapper = mapper;
         }
 
         public async Task<ProductResponseDto?> Handle(GetProductByIdQuery request, CancellationToken ct)
@@ -31,7 +28,23 @@ namespace ECommerce.Business.Products.Queries.GetProductById
             if (product == null)
                 throw new BusinessException("Ürün bulunamadı.");
 
-            return _mapper.Map<ProductResponseDto>(product);
+            return ToResponseDto(product);
         }
+
+        private static ProductResponseDto ToResponseDto(Product product)
+        {
+            return new ProductResponseDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                CategoryId = product.CategoryId,
+                UserId = product.UserId
+            };
+        }
+
     }
+
+
 }

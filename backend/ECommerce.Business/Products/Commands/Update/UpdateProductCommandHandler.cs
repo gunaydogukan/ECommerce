@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
@@ -12,16 +12,16 @@ namespace ECommerce.Business.Products.Commands.Update
         : IRequestHandler<UpdateProductCommand, ProductResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public UpdateProductCommandHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -37,13 +37,26 @@ namespace ECommerce.Business.Products.Commands.Update
             if (existing.UserId != userId)
                 throw new BusinessException("Bu ürünü güncelleme yetkiniz yok.");
 
-            _mapper.Map(request, existing);
+            existing.CategoryId = request.CategoryId ?? existing.CategoryId;
+            existing.Name = request.Name ?? existing.Name;
+            existing.Description = request.Description ?? existing.Description;
+            existing.Price = request.Price ?? existing.Price;
 
             await productRepo.UpdateAsync(existing, ct);
-            //await _uow.SaveChangesAsync(ct);
 
             var loaded = await productRepo.GetByIdAsync(request.Id, ct);
-            return _mapper.Map<ProductResponseDto>(loaded);
+
+            var res = new ProductResponseDto
+            {
+                Id = loaded.Id,
+                Name = loaded.Name,
+                Description = loaded.Description,
+                Price = loaded.Price,
+                CategoryId = loaded.CategoryId,
+                UserId = loaded.UserId
+            };
+
+            return res;
         }
 
     }

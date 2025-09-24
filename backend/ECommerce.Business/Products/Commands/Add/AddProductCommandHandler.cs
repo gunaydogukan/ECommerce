@@ -24,13 +24,29 @@ namespace ECommerce.Business.Products.Commands.Add
         {
             var productRepo = _uow.Repository<Product>();
 
-            var entity = _mapper.Map<Product>(request);
+            var entity = new Product
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                CategoryId = request.CategoryId
+            };
+
             entity.UserId = _userAccessor.GetUserId();
 
             await productRepo.AddAsync(entity, ct);
-            //await _uow.SaveChangesAsync(ct);
 
-            return _mapper.Map<ProductResponseDto>(entity);
+            var res = new ProductResponseDto
+            {
+                Id = entity.Id,
+                CategoryId = entity.CategoryId,
+                UserId = entity.UserId,
+                Name = entity.Name,
+                Description = entity.Description,
+                Price = entity.Price
+            };
+
+            return res;
         }
     }
 }

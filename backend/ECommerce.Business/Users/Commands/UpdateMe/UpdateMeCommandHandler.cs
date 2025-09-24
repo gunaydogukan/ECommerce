@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Users.Dtos;
+﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Core.Helpers.Security;
@@ -11,13 +10,11 @@ public class UpdateMeCommandHandler : IRequestHandler<UpdateMeCommand, UserRespo
 {
     private  readonly IUnitOfWork _uow;
     private readonly IUserAccessor _userAccessor;
-    private readonly IMapper _mapper;
 
-    public UpdateMeCommandHandler(IUnitOfWork uow, IUserAccessor userAccessor, IMapper mapper)
+    public UpdateMeCommandHandler(IUnitOfWork uow, IUserAccessor userAccessor)
     {
         _uow = uow;
         _userAccessor = userAccessor;
-        _mapper = mapper;
     }
 
     public async Task<UserResponseDto> Handle(UpdateMeCommand request, CancellationToken ct)
@@ -49,6 +46,17 @@ public class UpdateMeCommandHandler : IRequestHandler<UpdateMeCommand, UserRespo
 
         await userRepo.UpdateAsync(user, ct);
 
-        return _mapper.Map<UserResponseDto>(user);
+        return ToResponseDto(user);
     }
+
+    private static UserResponseDto ToResponseDto(Entities.Identity.User user)
+    {
+        return new UserResponseDto(
+            user.Email,
+            user.FirstName,
+            user.LastName,
+            user.PhoneNumber
+        );
+    }
+
 }

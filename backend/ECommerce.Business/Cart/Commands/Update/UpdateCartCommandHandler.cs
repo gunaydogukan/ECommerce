@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Cart.Dtos;
+﻿using ECommerce.Business.Cart.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Core.Helpers.Security;
@@ -12,16 +11,16 @@ namespace ECommerce.Business.Cart.Commands.Update
         : IRequestHandler<UpdateCartCommand, CartResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public UpdateCartCommandHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -37,10 +36,9 @@ namespace ECommerce.Business.Cart.Commands.Update
             if (existing.UserId != userId)
                 throw new BusinessException("Bu sepet öğesini güncelleme yetkiniz yok.");
 
-            _mapper.Map(request, existing);
+            existing.Quantity = request.Quantity;
 
             await cartRepo.UpdateAsync(existing, cancellationToken);
-            //await _uow.SaveChangesAsync(cancellationToken);
 
             var updated = await cartRepo.GetByIdWithAsync(
                 existing.Id,
@@ -48,7 +46,20 @@ namespace ECommerce.Business.Cart.Commands.Update
                 cancellationToken
             );
 
-            return _mapper.Map<CartResponseDto>(updated!);
+            return ToResponseDto(updated ?? existing);
+        }
+
+        private static CartResponseDto ToResponseDto(Entities.Orders.Cart cart)
+        {
+            return new CartResponseDto
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                ProductId = cart.ProductId,
+                ProductName = cart.Product?.Name ?? string.Empty,
+                UnitPrice = cart.Product?.Price ?? 0,
+                Quantity = cart.Quantity
+            };
         }
     }
 }

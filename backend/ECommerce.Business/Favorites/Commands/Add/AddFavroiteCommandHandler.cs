@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
@@ -12,25 +12,23 @@ namespace ECommerce.Business.Favorites.Commands.Add
         : IRequestHandler<AddFavroiteCommand, FavroiteResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public AddFavoriteCommandHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
         public async Task<FavroiteResponseDto> Handle(AddFavroiteCommand request, CancellationToken ct)
         {
             var favoriteRepo = _uow.Repository<ECommerce.Entities.Favorites.Favorite>();
-
             var userId = _userAccessor.GetUserId();
-
             request.UserId = userId;
 
             var exists = await favoriteRepo.Query()
@@ -39,23 +37,31 @@ namespace ECommerce.Business.Favorites.Commands.Add
             if (exists)
                 throw new BusinessException("Bu ürün zaten favorilerde.");
 
-            var dto = _mapper.Map<FavoriteCreateDto>(request);
-
-            var entity = _mapper.Map<ECommerce.Entities.Favorites.Favorite>(dto);
-            entity.UserId = userId;
+            var entity = new ECommerce.Entities.Favorites.Favorite
+            {
+                UserId = userId,
+                ProductId = request.ProductId
+            };
 
             await favoriteRepo.AddAsync(entity, ct);
-            //await _uow.SaveChangesAsync(ct);
 
-            /*
             var loaded = await favoriteRepo.GetByIdWithAsync(
                 entity.Id,
                 q => q.Include(f => f.Product),
                 ct
-            ); */
+            );
 
-            return _mapper.Map<FavroiteResponseDto>(entity);
+            return ToResponseDto(loaded ?? entity);
         }
-
+        private static FavroiteResponseDto ToResponseDto(ECommerce.Entities.Favorites.Favorite fav)
+        {
+            return new FavroiteResponseDto
+            {
+                Id = fav.Id,
+                ProductId = fav.ProductId,
+                ProductName = fav.Product?.Name ?? string.Empty,
+                Price = fav.Product?.Price ?? 0
+            };
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Helpers.Security;
@@ -11,16 +11,16 @@ namespace ECommerce.Business.Favorites.Queries.GetMyFavorite
         : IRequestHandler<GetMyFavoriteQuery, IReadOnlyList<FavroiteResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public GetMyFavoriteQueryHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -38,7 +38,21 @@ namespace ECommerce.Business.Favorites.Queries.GetMyFavorite
                 cancellationToken
             );
 
-            return _mapper.Map<IReadOnlyList<FavroiteResponseDto>>(favorites);
+            return favorites
+                .Select(ToResponseDto)
+                .ToList()
+                .AsReadOnly();
+        }
+        
+        private static FavroiteResponseDto ToResponseDto(ECommerce.Entities.Favorites.Favorite fav)
+        {
+            return new FavroiteResponseDto
+            {
+                Id = fav.Id,
+                ProductId = fav.ProductId,
+                ProductName = fav.Product?.Name ?? string.Empty,
+                Price = fav.Product?.Price ?? 0
+            };
         }
     }
 }

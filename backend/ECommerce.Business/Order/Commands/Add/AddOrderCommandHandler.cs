@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using ECommerce.Business.Order.Dtos;
 using ECommerce.Business.OrderItem.Dtos;
 using ECommerce.Core.Abstractions;
@@ -12,16 +12,16 @@ namespace ECommerce.Business.Order.Commands.Add
     public class AddOrderCommandHandler : IRequestHandler<AddOrderCommand, OrderResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public AddOrderCommandHandler(
             IUnitOfWork uow,
-            IMapper mapper,
+            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
+            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -100,8 +100,32 @@ namespace ECommerce.Business.Order.Commands.Add
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == order.Id, cancellationToken);
 
-            return _mapper.Map<OrderResponseDto>(loaded ?? order);
+            return ToResponseDto(loaded ?? order);
         }
+
+        private static OrderResponseDto ToResponseDto(Entities.Orders.Order order)
+        {
+            return new OrderResponseDto
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                Status = order.Status,
+                TotalAmount = order.TotalAmount,
+                OrderItems = order.OrderItems?.Select(ToItemResponseDto).ToList() ?? new List<OrderItemResponseDto>()
+            };
+        }
+
+        private static OrderItemResponseDto ToItemResponseDto(Entities.Orders.OrderItem item)
+        {
+            return new OrderItemResponseDto
+            {
+                ProductId = item.ProductId,
+                ProductName = item.Product?.Name ?? string.Empty,
+                Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice
+            };
+        }
+
     }
 
 }

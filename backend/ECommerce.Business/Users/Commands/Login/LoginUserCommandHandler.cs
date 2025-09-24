@@ -41,7 +41,7 @@ namespace ECommerce.Business.Users.Commands.Login
             var roleName = user.UserRole?.Role?.Name ?? "User";
 
             var token = _jwtService.GenerateToken(user, roleName);
-            _cookieHelper.SetTokenCookie(token, DateTimeOffset.UtcNow.AddMinutes(120));
+            _cookieHelper.SetTokenCookie(token, DateTimeOffset.UtcNow.AddMinutes(60));
 
             return new LoginResponseDto(
                 user.Id,
