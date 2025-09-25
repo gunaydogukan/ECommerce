@@ -42,7 +42,7 @@ namespace ECommerce.API.Controllers.Orders
         [HttpGet("sold-products")]
         public async Task<IResult> GetMySoldProducts(CancellationToken ct)
         {
-            var products = await _mediator.Send(new GetSoldProductsBySellerQuery(), ct);
+            var products = await _mediator.Send(new GetMySoldProductsBySellerQuery(), ct);
 
             return Success(products, "Satılan ürünler başarıyla getirildi.", 200);
         }

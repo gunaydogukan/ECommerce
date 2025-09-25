@@ -3,11 +3,11 @@ using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Order.Queries.GetMy
 {
-    public record GetMyOrdersQuery : ICacheableQuery<IReadOnlyList<OrderResponseDto>>
+    public record GetMyOrdersQuery : IUserSpecificCacheableQuery<IReadOnlyList<OrderResponseDto>>
     {
-        internal int UserId { get; set; }
+        //internal int UserId { get; set; }
 
-        public string CacheKey => $"orders-user-{UserId}";
-        public TimeSpan? Expiration => TimeSpan.FromMinutes(5);
+        //public string CacheKey => $"orders-user-{UserId}";
+        //public TimeSpan? Expiration => TimeSpan.FromMinutes(5);
     }
 }

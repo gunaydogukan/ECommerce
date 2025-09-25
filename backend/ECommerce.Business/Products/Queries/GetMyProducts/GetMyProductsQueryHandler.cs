@@ -9,24 +9,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Business.Products.Queries.GetProductsByUserId
 {
-    public class GetProductsByUserIdQueryHandler
-        : IRequestHandler<GetProductsByUserIdQuery, IReadOnlyList<ProductResponseDto>>
+    public class GetMyProductsQueryHandler
+        : IRequestHandler<GetMyProductsQuery, IReadOnlyList<ProductResponseDto>>
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserAccessor _userAccessor;
         private readonly IMapper _mapper;
 
-        public GetProductsByUserIdQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor, IMapper mapper)
+        public GetMyProductsQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor, IMapper mapper)
         {
             _uow = uow;
             _userAccessor = userAccessor;
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<ProductResponseDto>> Handle(GetProductsByUserIdQuery request, CancellationToken ct)
+        public async Task<IReadOnlyList<ProductResponseDto>> Handle(GetMyProductsQuery request, CancellationToken ct)
         {
             var userId = _userAccessor.GetUserId();
-            request.UserId = userId; 
+            //request.UserId = userId; 
 
             var productRepo = _uow.Repository<Product>();
 

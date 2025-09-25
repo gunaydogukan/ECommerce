@@ -4,12 +4,12 @@ using MediatR;
 
 namespace ECommerce.Business.Favorites.Queries.GetMyFavorite
 {
-    public record GetMyFavoriteQuery : ICacheableQuery<IReadOnlyList<FavroiteResponseDto>>
+    public record GetMyFavoriteQuery : IUserSpecificCacheableQuery<IReadOnlyList<FavroiteResponseDto>>
     {
-        internal int UserId { get; set; }
+        //internal int UserId { get; set; }
 
-        public string CacheKey => $"favorites-user-{UserId}";
+        //public string CacheKey => $"favorites-user-{UserId}";
 
-        public TimeSpan? Expiration => TimeSpan.FromMinutes(10);
+        //public TimeSpan? Expiration => TimeSpan.FromMinutes(10);
     }
 }

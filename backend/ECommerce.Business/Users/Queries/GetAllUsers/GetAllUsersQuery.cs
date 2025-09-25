@@ -5,8 +5,8 @@ namespace ECommerce.Business.Users.Queries.GetAllUsers
 {
     public record GetAllUsersQuery : ICacheableQuery<IReadOnlyList<UserResponseDto>>
     {
-        public string CacheKey => "all-users";
+        //public string CacheKey => "all-users";
 
-        public TimeSpan? Expiration => TimeSpan.FromMinutes(30);
+        //public TimeSpan? Expiration => TimeSpan.FromMinutes(30);
     }
 }

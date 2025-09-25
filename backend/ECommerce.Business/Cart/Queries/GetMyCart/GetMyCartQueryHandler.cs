@@ -4,6 +4,7 @@ using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Core.Helpers.Security;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Business.Cart.Queries.GetMyCart
@@ -27,10 +28,11 @@ namespace ECommerce.Business.Cart.Queries.GetMyCart
             CancellationToken cancellationToken)
         {
             var cartRepo = _uow.Repository<Entities.Orders.Cart>();
-            request.UserId = _userAccessor.GetUserId();
+            //request.UserId = _userAccessor.GetUserId();
+            var userId = _userAccessor.GetUserId();
 
             var carts = await cartRepo.GetAllWithAsync(
-                q => q.Where(c => c.UserId == request.UserId)
+                q => q.Where(c => c.UserId == userId)
                     .Include(c => c.Product)
                     .OrderBy(c => c.CreatedAt), 
                 cancellationToken

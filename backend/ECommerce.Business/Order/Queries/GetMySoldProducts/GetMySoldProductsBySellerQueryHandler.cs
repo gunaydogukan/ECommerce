@@ -7,30 +7,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Business.Order.Queries.GetSoldProducts
 {
-    public class GetSoldProductsBySellerQueryHandler
-        : IRequestHandler<GetSoldProductsBySellerQuery, IReadOnlyList<SoldProductDto>>
+    public class GetMySoldProductsBySellerQueryHandler
+        : IRequestHandler<GetMySoldProductsBySellerQuery, IReadOnlyList<SoldProductDto>>
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserAccessor _userAccessor;
 
-        public GetSoldProductsBySellerQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
+        public GetMySoldProductsBySellerQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
             _userAccessor = userAccessor;
         }
 
         public async Task<IReadOnlyList<SoldProductDto>> Handle(
-            GetSoldProductsBySellerQuery request,
+            GetMySoldProductsBySellerQuery request,
             CancellationToken ct)
         {
-            request.SellerId = _userAccessor.GetUserId();
+            //request.SellerId = _userAccessor.GetUserId();
+            var sellerId = _userAccessor.GetUserId();
             
             var orderRepo = _uow.Repository<Entities.Orders.Order>();
 
             var sales = await orderRepo.Query()
                 .Include(o => o.User) 
                 .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
-                .Where(o => o.OrderItems.Any(oi => oi.Product.UserId == request.SellerId))
+                .Where(o => o.OrderItems.Any(oi => oi.Product.UserId == sellerId))
                 .SelectMany(o => o.OrderItems.Select(oi => new
                 {
                     o.Id,

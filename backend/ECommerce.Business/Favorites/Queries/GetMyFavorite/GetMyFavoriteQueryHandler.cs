@@ -30,7 +30,7 @@ namespace ECommerce.Business.Favorites.Queries.GetMyFavorite
         {
             var favoriteRepo = _uow.Repository<ECommerce.Entities.Favorites.Favorite>();
             var userId = _userAccessor.GetUserId();
-            request.UserId = userId; 
+            //request.UserId = userId; 
 
             var favorites = await favoriteRepo.GetAllWithAsync(
                 query => query.Where(f => f.UserId == userId)

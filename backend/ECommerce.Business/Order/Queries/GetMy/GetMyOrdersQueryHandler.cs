@@ -31,7 +31,7 @@ namespace ECommerce.Business.Order.Queries.GetMy
             var orderRepo = _uow.Repository<Entities.Orders.Order>();
             var userId = _userAccessor.GetUserId();
 
-            request.UserId = userId;
+            //request.UserId = userId;
 
             var orders = await orderRepo.Query()
                 .Include(o => o.OrderItems)

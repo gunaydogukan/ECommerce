@@ -5,8 +5,8 @@ namespace ECommerce.Business.Products.Queries.GetProductById
 {
     public record GetProductByIdQuery(int Id) : ICacheableQuery<ProductResponseDto?>
     {
-        public string CacheKey => $"product-{Id}";
+        //public string CacheKey => $"product-{Id}";
 
-        public TimeSpan? Expiration => TimeSpan.FromMinutes(30);
+        //public TimeSpan? Expiration => TimeSpan.FromMinutes(30);
     }
 }

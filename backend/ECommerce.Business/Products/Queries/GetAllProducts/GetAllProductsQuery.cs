@@ -5,8 +5,8 @@ namespace ECommerce.Business.Products.Queries.GetAllProducts
 {
     public record GetAllProductsQuery : ICacheableQuery<IReadOnlyList<ProductResponseDto>>
     {
-        public string CacheKey => "all-products";
+        //public string CacheKey => "all-products";
 
-        public TimeSpan? Expiration => TimeSpan.FromMinutes(15);
+        //public TimeSpan? Expiration => TimeSpan.FromMinutes(15);
     }
 }

@@ -58,7 +58,7 @@ namespace ECommerce.API.Controllers.Catalog
         [HttpGet("my")]
         public async Task<IResult> GetMyProducts(CancellationToken ct)
         {
-            var products = await _mediator.Send(new GetProductsByUserIdQuery(), ct);
+            var products = await _mediator.Send(new GetMyProductsQuery(), ct);
 
             return Success(products, "Kullanıcı ürünleri başarıyla getirildi.", 200);
         }
