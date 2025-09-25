@@ -1,5 +1,4 @@
-﻿//using AutoMapper;
-using ECommerce.Business.Favorites.Dtos;
+﻿using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using MediatR;
@@ -11,16 +10,13 @@ namespace ECommerce.Business.Favorites.Commands.Add
         : IRequestHandler<AddFavroiteCommand, FavroiteResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public AddFavoriteCommandHandler(
             IUnitOfWork uow,
-            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 

@@ -10,16 +10,13 @@ namespace ECommerce.Business.Cart.Commands.Update
         : IRequestHandler<UpdateCartCommand, CartResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public UpdateCartCommandHandler(
             IUnitOfWork uow,
-            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 

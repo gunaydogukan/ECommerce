@@ -11,16 +11,13 @@ namespace ECommerce.Business.Products.Commands.Update
         : IRequestHandler<UpdateProductCommand, ProductResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public UpdateProductCommandHandler(
             IUnitOfWork uow,
-            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 

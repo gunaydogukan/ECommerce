@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using ECommerce.Business.Cart.Dtos;
+﻿using ECommerce.Business.Cart.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Business.Cart.Queries.GetMyCart
@@ -12,13 +10,11 @@ namespace ECommerce.Business.Cart.Queries.GetMyCart
         : IRequestHandler<GetMyCartQuery, IReadOnlyList<CartResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
-        public GetMyCartQueryHandler(IUnitOfWork uow, IMapper mapper, IUserAccessor userAccessor)
+        public GetMyCartQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
             _userAccessor = userAccessor;
         }
 
@@ -27,7 +23,6 @@ namespace ECommerce.Business.Cart.Queries.GetMyCart
             CancellationToken cancellationToken)
         {
             var cartRepo = _uow.Repository<Entities.Orders.Cart>();
-            //request.UserId = _userAccessor.GetUserId();
             var userId = _userAccessor.GetUserId();
 
             var carts = await cartRepo.GetAllWithAsync(
@@ -40,7 +35,17 @@ namespace ECommerce.Business.Cart.Queries.GetMyCart
             if (carts == null || !carts.Any())
                 throw new BusinessException("Sepet bulunamadı.");
 
-            return _mapper.Map<IReadOnlyList<CartResponseDto>>(carts);
+            var dtoList = carts.Select(c => new CartResponseDto
+            {
+                Id = c.Id,
+                UserId = c.UserId,
+                ProductId = c.ProductId,
+                ProductName = c.Product?.Name ?? string.Empty,
+                UnitPrice = c.Product?.Price ?? 0,
+                Quantity = c.Quantity
+            }).ToList();
+
+            return dtoList;
         }
     }
 }

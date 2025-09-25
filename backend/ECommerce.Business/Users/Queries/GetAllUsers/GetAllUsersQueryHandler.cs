@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Users.Dtos;
+﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Entities.Identity;
 using MediatR;
@@ -9,12 +8,10 @@ namespace ECommerce.Business.Users.Queries.GetAllUsers
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IReadOnlyList<UserResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
 
-        public GetAllUsersQueryHandler(IUnitOfWork uow, IMapper mapper)
+        public GetAllUsersQueryHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _mapper = mapper;
         }
 
         public async Task<IReadOnlyList<UserResponseDto>> Handle(GetAllUsersQuery request, CancellationToken ct)
@@ -23,8 +20,14 @@ namespace ECommerce.Business.Users.Queries.GetAllUsers
 
             var users = await userRepo.GetAllAsync(ct);
 
+            var dtoList = users.Select(u => new UserResponseDto(
+                u.Email,
+                u.FirstName,
+                u.LastName,
+                u.PhoneNumber
+            )).ToList();
 
-            return _mapper.Map<IReadOnlyList<UserResponseDto>>(users);
+            return dtoList;
         }
     }
 }

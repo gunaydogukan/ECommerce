@@ -9,16 +9,13 @@ namespace ECommerce.Business.Cart.Commands.Add
         : IRequestHandler<AddToCartCommand, CartResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public AddToCartCommandHandler(
             IUnitOfWork uow,
-            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 

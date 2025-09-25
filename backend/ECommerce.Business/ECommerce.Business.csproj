@@ -21,14 +21,12 @@
   <ItemGroup>
     <Folder Include="Cart\Commands\Update\" />
     <Folder Include="Cart\Dtos\" />
-    <Folder Include="Cart\Mapping\" />
     <Folder Include="Cart\Queries\GetMyCart\" />
     <Folder Include="Favorites\Commands\Add\" />
     <Folder Include="Favorites\Dtos\" />
     <Folder Include="Order\Commands\Add\" />
     <Folder Include="Products\Commands\Delete\" />
     <Folder Include="Products\Commands\Update\" />
-    <Folder Include="Products\Mapping\" />
     <Folder Include="Products\Queries\GetProductById\" />
     <Folder Include="Products\Queries\GetAllProducts\" />
     <Folder Include="Users\Queries\GetMe\" />

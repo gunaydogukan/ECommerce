@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Products.Dtos;
+﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Entities.Catalog;
 using MediatR;
@@ -10,12 +9,10 @@ namespace ECommerce.Business.Products.Queries.GetProductsByCategory
         : IRequestHandler<GetProductsByCategoryQuery, IReadOnlyList<ProductResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
 
-        public GetProductsByCategoryQueryHandler(IUnitOfWork uow, IMapper mapper)
+        public GetProductsByCategoryQueryHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _mapper = mapper;
         }
 
         public async Task<IReadOnlyList<ProductResponseDto>> Handle(

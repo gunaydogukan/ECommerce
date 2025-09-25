@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Users.Dtos;
+﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Entities.Identity;
@@ -11,13 +10,11 @@ namespace ECommerce.Business.Users.Queries.GetMe
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserAccessor _userAccessor;
-        private readonly IMapper _mapper;
 
-        public GetMeQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor, IMapper mapper)
+        public GetMeQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
             _userAccessor = userAccessor;
-            _mapper = mapper;
         }
 
         public async Task<UserResponseDto> Handle(GetMeQuery request, CancellationToken ct)
@@ -30,7 +27,12 @@ namespace ECommerce.Business.Users.Queries.GetMe
             if (user == null)
                 throw new BusinessException("Kullanıcı bulunamadı.");
 
-            return _mapper.Map<UserResponseDto>(user);
+            return new UserResponseDto(
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.PhoneNumber
+            );
         }
     }
 }

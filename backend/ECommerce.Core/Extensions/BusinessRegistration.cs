@@ -17,9 +17,6 @@ namespace ECommerce.Core.Extensions
             // FluentValidation
             services.AddValidatorsFromAssembly(Assembly.Load("ECommerce.Business"));
 
-            // AutoMapper
-            services.AddAutoMapper(Assembly.Load("ECommerce.Business"));
-
             return services;
         }
     }

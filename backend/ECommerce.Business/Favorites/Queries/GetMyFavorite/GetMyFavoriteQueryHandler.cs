@@ -1,5 +1,4 @@
-﻿//using AutoMapper;
-using ECommerce.Business.Favorites.Dtos;
+﻿using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +9,13 @@ namespace ECommerce.Business.Favorites.Queries.GetMyFavorite
         : IRequestHandler<GetMyFavoriteQuery, IReadOnlyList<FavroiteResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public GetMyFavoriteQueryHandler(
             IUnitOfWork uow,
-            //IMapper mapper,
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 

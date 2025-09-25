@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Users.Dtos;
+﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Entities.Identity;
@@ -10,12 +9,10 @@ namespace ECommerce.Business.Users.Queries.GetUserById
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
 
-        public GetUserByIdQueryHandler(IUnitOfWork uow, IMapper mapper)
+        public GetUserByIdQueryHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _mapper = mapper;
         }
 
         public async Task<UserResponseDto> Handle(GetUserByIdQuery request, CancellationToken ct)
@@ -26,7 +23,12 @@ namespace ECommerce.Business.Users.Queries.GetUserById
             if (user == null)
                 throw new BusinessException("Kullanıcı bulunamadı.");
 
-            return _mapper.Map<UserResponseDto>(user);
+            return new UserResponseDto(
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.PhoneNumber
+            );
         }
     }
 }

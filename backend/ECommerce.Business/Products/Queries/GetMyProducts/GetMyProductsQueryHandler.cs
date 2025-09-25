@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Products.Dtos;
+﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
 using ECommerce.Entities.Catalog;
@@ -13,13 +12,11 @@ namespace ECommerce.Business.Products.Queries.GetProductsByUserId
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserAccessor _userAccessor;
-        private readonly IMapper _mapper;
 
-        public GetMyProductsQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor, IMapper mapper)
+        public GetMyProductsQueryHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
             _userAccessor = userAccessor;
-            _mapper = mapper;
         }
 
         public async Task<IReadOnlyList<ProductResponseDto>> Handle(GetMyProductsQuery request, CancellationToken ct)

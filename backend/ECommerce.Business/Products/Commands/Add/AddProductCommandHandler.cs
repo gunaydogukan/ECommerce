@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Business.Products.Dtos;
+﻿using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Entities.Catalog;
 using MediatR;
@@ -9,13 +8,11 @@ namespace ECommerce.Business.Products.Commands.Add
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand, ProductResponseDto>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
-        public AddProductCommandHandler(IUnitOfWork uow, IMapper mapper, IUserAccessor userAccessor)
+        public AddProductCommandHandler(IUnitOfWork uow, IUserAccessor userAccessor)
         {
             _uow = uow;
-            _mapper = mapper;
             _userAccessor = userAccessor;
         }
 

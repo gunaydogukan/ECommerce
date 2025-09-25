@@ -1,5 +1,4 @@
-﻿//using AutoMapper;
-using ECommerce.Business.Order.Dtos;
+﻿using ECommerce.Business.Order.Dtos;
 using ECommerce.Business.OrderItem.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
@@ -12,16 +11,13 @@ namespace ECommerce.Business.Order.Queries.GetMy
         : IRequestHandler<GetMyOrdersQuery, IReadOnlyList<OrderResponseDto>>
     {
         private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
 
         public GetMyOrdersQueryHandler(
             IUnitOfWork uow, 
-            //IMapper mapper, 
             IUserAccessor userAccessor)
         {
             _uow = uow;
-            //_mapper = mapper;
             _userAccessor = userAccessor;
         }
 
