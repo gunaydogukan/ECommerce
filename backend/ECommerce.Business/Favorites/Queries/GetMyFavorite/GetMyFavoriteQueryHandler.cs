@@ -1,7 +1,6 @@
 ﻿//using AutoMapper;
 using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

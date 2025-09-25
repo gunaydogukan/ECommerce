@@ -1,7 +1,6 @@
 ﻿using ECommerce.Business.Cart.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

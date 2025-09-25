@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using ECommerce.Core.Caching;
-using ECommerce.Core.Helpers.Security;
+using ECommerce.Core.Abstractions;
+using ECommerce.Core.Helpers;
 
 namespace ECommerce.Core.Behaviors
 {
@@ -26,7 +27,7 @@ namespace ECommerce.Core.Behaviors
         {
             try
             {
-                var cacheKey = GenerateCacheKey(request);
+                var cacheKey = CacheKeyHelper.GenerateCacheKey(request.GetType(), _userAccessor);
 
                 var cachedData = await _cache.GetStringAsync(cacheKey, cancellationToken);
                 if (!string.IsNullOrWhiteSpace(cachedData))
@@ -46,7 +47,18 @@ namespace ECommerce.Core.Behaviors
             }
         }
 
-        private string GenerateCacheKey(TRequest request)
+        private async Task SetCache(string key, TResponse response, CancellationToken ct)
+        {
+            var options = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20) 
+            };
+
+            var data = JsonSerializer.Serialize(response);
+            await _cache.SetStringAsync(key, data, options, ct);
+        }
+
+        /*private string GenerateCacheKey(TRequest request)
         {
             var requestName = typeof(TRequest).Name;
 
@@ -68,17 +80,7 @@ namespace ECommerce.Core.Behaviors
                 parts.Add(string.Join("-", props));
 
             return string.Join("-", parts);
-        }
+        } */
 
-        private async Task SetCache(string key, TResponse response, CancellationToken ct)
-        {
-            var options = new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20) 
-            };
-
-            var data = JsonSerializer.Serialize(response);
-            await _cache.SetStringAsync(key, data, options, ct);
-        }
     }
 }

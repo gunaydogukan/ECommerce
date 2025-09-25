@@ -1,15 +1,18 @@
-﻿using ECommerce.Core.Abstractions;
+﻿using ECommerce.Business.Users.Queries.GetAllUsers;
+using ECommerce.Business.Users.Queries.GetMe;
+using ECommerce.Business.Users.Queries.GetUserById;
+using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
 
 namespace ECommerce.Business.Users.Commands.Delete
 {
     public record DeleteUserCommand(int Id) : IBaseCommand<bool>, ICacheInvalidation
     {
-        public IReadOnlyList<string> CacheKeys => new[]
+        public IReadOnlyList<Type> QueryTypes => new[]
         {
-            "all-users",
-            $"user-{Id}",
-            $"user-me-{Id}"
+            typeof(GetAllUsersQuery),
+            typeof(GetMeQuery),
+            typeof(GetUserByIdQuery)
         };
     }
 }

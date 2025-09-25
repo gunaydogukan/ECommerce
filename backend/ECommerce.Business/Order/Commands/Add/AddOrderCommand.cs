@@ -1,4 +1,7 @@
-﻿using ECommerce.Business.Order.Dtos;
+﻿using ECommerce.Business.Cart.Queries.GetMyCart;
+using ECommerce.Business.Order.Dtos;
+using ECommerce.Business.Order.Queries.GetMy;
+using ECommerce.Business.Order.Queries.GetSoldProducts;
 using ECommerce.Business.OrderItem.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
@@ -7,21 +10,13 @@ namespace ECommerce.Business.Order.Commands.Add
 {
     public record AddOrderCommand : IBaseCommand<OrderResponseDto>, ICacheInvalidation
     {
-        internal int UserId { get; set; }
-        internal int? SellerId { get; set; }
         public List<OrderItemCreateDto> Items { get; set; } = new();
 
-        public IReadOnlyList<string> CacheKeys
+        public IReadOnlyList<Type> QueryTypes => new[]
         {
-            get
-            {
-                var keys = new List<string> { $"orders-user-{UserId}" };
-
-                if (SellerId.HasValue)
-                    keys.Add($"sold-products-seller-{SellerId.Value}");
-
-                return keys;
-            }
-        }
+            typeof(GetMyOrdersQuery),
+            typeof(GetMySoldProductsBySellerQuery),
+            typeof(GetMyCartQuery)
+        };
     }
 }

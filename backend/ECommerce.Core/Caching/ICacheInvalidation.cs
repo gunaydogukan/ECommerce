@@ -2,5 +2,5 @@
 
 public interface ICacheInvalidation
 {
-    IReadOnlyList<string> CacheKeys {get; }
+    IReadOnlyList<Type> QueryTypes { get; }
 }

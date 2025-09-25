@@ -1,7 +1,6 @@
 ﻿using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using ECommerce.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +20,11 @@ namespace ECommerce.Business.Users.Commands.Update
 
         public async Task<UserResponseDto> Handle(UpdateUserCommand request, CancellationToken ct)
         {
-            var userId = _userAccessor.GetUserId();
+           // var userId = _userAccessor.GetUserId();
             var userRepo = _uow.Repository<User>();
-            request.Id = userId;
 
             var user = await userRepo.Query()
-                .FirstOrDefaultAsync(u => u.Id == userId, ct);
+                .FirstOrDefaultAsync(u => u.Id == request.Id, ct);
 
             if (user == null)
                 throw new BusinessException("Kullanıcı bulunamadı.");

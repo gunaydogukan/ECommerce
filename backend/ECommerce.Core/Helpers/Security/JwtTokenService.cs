@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ECommerce.Core.Settings;
+using ECommerce.Core.Abstractions;
 
 namespace ECommerce.Core.Helpers.Security
 {

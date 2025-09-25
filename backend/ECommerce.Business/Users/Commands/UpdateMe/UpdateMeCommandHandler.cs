@@ -21,7 +21,7 @@ public class UpdateMeCommandHandler : IRequestHandler<UpdateMeCommand, UserRespo
     {
         var userId = _userAccessor.GetUserId();
         var userRepo = _uow.Repository<Entities.Identity.User>();
-        request.Id = userId;
+        //request.Id = userId;
 
         var user = await userRepo.GetByIdAsync(userId, ct);
 

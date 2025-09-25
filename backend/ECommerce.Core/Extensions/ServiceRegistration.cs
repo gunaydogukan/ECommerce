@@ -2,6 +2,7 @@
 using ECommerce.Core.HttpContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using ECommerce.Core.Abstractions;
 
 namespace ECommerce.Core.Extensions
 {

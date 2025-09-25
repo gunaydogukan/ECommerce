@@ -3,7 +3,6 @@ using ECommerce.Business.Order.Dtos;
 using ECommerce.Business.OrderItem.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +29,6 @@ namespace ECommerce.Business.Order.Commands.Add
             var userId = _userAccessor.GetUserId();
             var items = request.Items;
             
-            request.UserId = userId;
 
             if (items == null || !items.Any())
             {
@@ -70,7 +68,6 @@ namespace ECommerce.Business.Order.Commands.Add
                 if (product.UserId == userId)
                     throw new BusinessException("Kendi ürününüze sipariş veremezsiniz.");
 
-                request.SellerId ??= product.UserId;
 
                 var orderItem = new Entities.Orders.OrderItem
                 {

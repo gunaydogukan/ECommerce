@@ -1,4 +1,4 @@
-﻿using ECommerce.Core.Helpers.Security;
+﻿using ECommerce.Core.Abstractions;
 using ECommerce.Core.Interceptors;
 using ECommerce.Core.Settings;
 using ECommerce.Entities.Base;

@@ -1,21 +1,14 @@
-﻿using ECommerce.Core.Abstractions;
+﻿using ECommerce.Business.Products.Queries.GetAllProducts;
+using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
-using MediatR;
 
 namespace ECommerce.Business.Products.Commands.Delete
 {
-    public class DeleteProductCommand : IBaseCommand<bool> , ICacheInvalidation
+    public record DeleteProductCommand(int Id) : IBaseCommand<bool> , ICacheInvalidation
     {
-        public int Id { get; }
-
-        public DeleteProductCommand(int id)
+        public IReadOnlyList<Type> QueryTypes => new[]
         {
-            Id = id;
-        }
-
-        public IReadOnlyList<string> CacheKeys => new[]
-        {
-            "all-products"
+            typeof(GetAllProductsQuery)
         };
     }
 }

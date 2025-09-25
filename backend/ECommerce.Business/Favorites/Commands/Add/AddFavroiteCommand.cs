@@ -1,4 +1,5 @@
 ﻿using ECommerce.Business.Favorites.Dtos;
+using ECommerce.Business.Favorites.Queries.GetMyFavorite;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Caching;
 
@@ -6,12 +7,11 @@ namespace ECommerce.Business.Favorites.Commands.Add
 {
     public record AddFavroiteCommand : IBaseCommand<FavroiteResponseDto>, ICacheInvalidation
     {
-        internal int UserId { get; set; }
         public int ProductId { get; set; }
 
-        public IReadOnlyList<string> CacheKeys => new[]
+        public IReadOnlyList<Type> QueryTypes => new[]
         {
-            $"favorites-user-{UserId}"
+            typeof(GetMyFavoriteQuery)
         };
     }
 }

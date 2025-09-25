@@ -1,6 +1,5 @@
 ﻿using ECommerce.Business.Cart.Dtos;
 using ECommerce.Core.Abstractions;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +28,6 @@ namespace ECommerce.Business.Cart.Commands.Add
 
             var userId = _userAccessor.GetUserId();
 
-            request.UserId = userId;
             var dto = new CartCreateDto
             {
                 UserId = userId,

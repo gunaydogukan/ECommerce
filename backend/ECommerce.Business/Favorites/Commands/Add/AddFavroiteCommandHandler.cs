@@ -2,7 +2,6 @@
 using ECommerce.Business.Favorites.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +28,6 @@ namespace ECommerce.Business.Favorites.Commands.Add
         {
             var favoriteRepo = _uow.Repository<ECommerce.Entities.Favorites.Favorite>();
             var userId = _userAccessor.GetUserId();
-            request.UserId = userId;
 
             var exists = await favoriteRepo.Query()
                 .AnyAsync(f => f.UserId == userId && f.ProductId == request.ProductId, ct);

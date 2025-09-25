@@ -1,6 +1,5 @@
 ﻿using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 
 namespace ECommerce.Business.Cart.Commands.Delete

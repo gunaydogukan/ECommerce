@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using ECommerce.Core.Helpers.Security;
+using ECommerce.Core.Abstractions;
 using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Core.HttpContext

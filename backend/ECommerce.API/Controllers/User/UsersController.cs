@@ -54,8 +54,9 @@ namespace ECommerce.API.Controllers.User
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IResult> Update(int id, [FromBody] UpdateUserCommand command, CancellationToken ct)
+        public async Task<IResult> Update(int id, [FromBody] UpdateUserCommand body, CancellationToken ct)
         {
+            var command = body with { Id = id };
             var updated = await _mediator.Send(command, ct);
             return Success(updated, "Kullanıcı başarıyla güncellendi.", 200);
         }

@@ -2,7 +2,6 @@
 using ECommerce.Business.Users.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using ECommerce.Entities.Identity;
 using MediatR;
 

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ECommerce.Business.Products.Dtos;
 using ECommerce.Core.Abstractions;
-using ECommerce.Core.Helpers.Security;
 using ECommerce.Entities.Catalog;
 using MediatR;
 

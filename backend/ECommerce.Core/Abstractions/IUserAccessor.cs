@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Core.Helpers.Security;
+﻿namespace ECommerce.Core.Abstractions;
 
 public interface IUserAccessor
 {

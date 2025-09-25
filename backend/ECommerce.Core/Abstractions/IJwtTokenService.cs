@@ -1,6 +1,6 @@
 ﻿using ECommerce.Entities.Identity;
 
-namespace ECommerce.Core.Helpers.Security
+namespace ECommerce.Core.Abstractions
 {
     public interface IJwtTokenService
     {

@@ -3,7 +3,6 @@ using ECommerce.Business.Order.Dtos;
 using ECommerce.Business.OrderItem.Dtos;
 using ECommerce.Core.Abstractions;
 using ECommerce.Core.Exceptions.Types;
-using ECommerce.Core.Helpers.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
