@@ -3,7 +3,7 @@
 import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
 import { GetMeApiResponse, UserProfile } from "./types";
-import { getCookieToken } from "@/lib/getCookie.server";
+import {cookies} from "next/headers";
 
 export async function getMeServer(): Promise<UserProfile> {
 
@@ -11,7 +11,7 @@ export async function getMeServer(): Promise<UserProfile> {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${await getCookieToken()}`,
+            "Cookie": cookies().toString(),
         },
     });
 

@@ -4,23 +4,19 @@ import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
 import {AddFavoriteRequest, FavoriteResponse, MyFavoriteResponse} from "./types";
 import { getCookieToken } from "@/lib/getCookie.server";
+import { cookies } from "next/headers";
 
-export async function addFavoriteServer(
-    data: AddFavoriteRequest
-): Promise<FavoriteResponse> {
-    const token = await getCookieToken();
+export async function addFavoriteServer(data: AddFavoriteRequest): Promise<FavoriteResponse> {
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.FAVORITES}/add`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify(data),
         cache: "no-store",
     });
-
-    console.log(res);
 
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
@@ -42,7 +38,7 @@ export async function getMyFavoritesServer(): Promise<MyFavoriteResponse[]> {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
+            "Authorization": token ? `Bearer ${token}` : "",
         },
         cache: "no-store",
     });
@@ -57,13 +53,12 @@ export async function getMyFavoritesServer(): Promise<MyFavoriteResponse[]> {
 }
 
 export async function deleteFavoriteServer(productIds: number[]): Promise<void> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.FAVORITES}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify(productIds),
         cache: "no-store",

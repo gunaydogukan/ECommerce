@@ -4,15 +4,15 @@ import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
 import { getSessionToken } from "@/lib/cookie.server";
 import {AddToCartApiResponse, AddToCartPayload, CartApiResponse, CartItem} from "./types";
+import {cookies} from "next/headers";
 
 export async function getMyCartServer(): Promise<CartItem[]> {
-    const token = await getSessionToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}/me`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
     });
 
@@ -28,16 +28,13 @@ export async function getMyCartServer(): Promise<CartItem[]> {
     return response.data;
 }
 
-export async function addToCartServer(
-    payload: AddToCartPayload
-): Promise<CartItem> {
-    const token = await getSessionToken();
+export async function addToCartServer(payload: AddToCartPayload): Promise<CartItem> {
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify(payload),
     });
@@ -51,17 +48,13 @@ export async function addToCartServer(
     return response.data;
 }
 
-export async function updateCartServer(
-    id: number,
-    quantity: number
-): Promise<CartItem> {
-    const token = await getSessionToken();
+export async function updateCartServer(id: number, quantity: number): Promise<CartItem> {
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify({ cartId: id, quantity }),
     });
@@ -76,12 +69,11 @@ export async function updateCartServer(
 }
 
 export async function removeFromCartServer(id: number): Promise<void> {
-    const token = await getSessionToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.CART}/${id}`, {
         method: "DELETE",
         headers: {
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
     });
 

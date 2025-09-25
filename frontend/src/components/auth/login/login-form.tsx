@@ -8,7 +8,8 @@ import { ROUTES } from "@/lib/constants";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { loginServer } from "@/services/auth/auth.server";
+import {loginAction} from "@/actions/auth/login-action";
+
 
 export default function LoginForm() {
     const router = useRouter();
@@ -31,7 +32,8 @@ export default function LoginForm() {
 
         try {
             setLoading(true);
-            await loginServer({ email, password });
+            await loginAction(email, password);
+            //await loginServer({ email, password });
             setIsAuthenticated(true);
 
             router.push(ROUTES.HOME);

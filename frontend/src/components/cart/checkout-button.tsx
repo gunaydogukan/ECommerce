@@ -6,6 +6,7 @@ import { createOrderServer } from "@/services/order/order.server";
 import { useState } from "react";
 import { useAtom } from "jotai";
 import { isAuthenticatedAtom } from "@/stores/auth-atom";
+import {ROUTES} from "@/lib/constants";
 
 export function CheckoutButton() {
     const router = useRouter();
@@ -24,7 +25,7 @@ export function CheckoutButton() {
             setLoading(true);
             await createOrderServer({ items: [] });
             alert("Siparişiniz başarıyla oluşturuldu!");
-            //router.push("/orders/my");
+            router.push(ROUTES.ORDERS);
         } catch (err: any) {
             alert(err.message);
         } finally {

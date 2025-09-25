@@ -37,9 +37,7 @@ export default function RegisterForm() {
             const { confirmPassword, ...registerData } = formData;
             await registerServer(registerData);
 
-            router.push(
-                ROUTES.LOGIN + "?message=Kayıt başarılı! Şimdi giriş yapabilirsiniz."
-            );
+            router.push(ROUTES.LOGIN);
         } catch (err: any) {
             setError(err.message || "Kayıt işlemi başarısız oldu.");
         } finally {

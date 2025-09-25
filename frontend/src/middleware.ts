@@ -13,7 +13,7 @@ function matchesRoute(pathname: string, routes: string[], exact: boolean = false
 }
 
 export function middleware(request: NextRequest) {
-    const token = request.cookies.get("token")?.value;
+    const token = request.cookies.get("accessToken")?.value;
     const { pathname } = request.nextUrl;
 
     if (matchesRoute(pathname, PUBLIC_ROUTES, true)) {

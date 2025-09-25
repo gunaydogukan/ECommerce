@@ -1,20 +1,41 @@
-import axios from "axios";
+"use server";
 
-export const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+import { BASE_URL } from "@/lib/config";
 
-// Request interceptor → token ekleme
-api.interceptors.request.use(
-    (config) => {
-        if (typeof window !== "undefined") {
-            const token = localStorage.getItem("token");
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
+interface ApiOptions extends RequestInit {
+    authRequired?: boolean;
+}
+
+export async function apiFetch<T>(
+    endpoint: string,
+    options: ApiOptions = {}
+): Promise<T> {
+    const { authRequired = true, ...rest } = options;
+
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            ...(rest.headers || {}),
+        },
+        ...rest,
+    });
+
+    if (res.status === 401 && authRequired) {
+        throw new Error("Yetkisiz erişim. Lütfen giriş yapınız.");
+    }
+
+    if (!res.ok) {
+        let errorMessage = "İstek başarısız oldu";
+        try {
+            const err = await res.json();
+            errorMessage = err?.message || errorMessage;
+        } catch {
         }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
+        throw new Error(errorMessage);
+    }
 
+    if (res.status === 204) return {} as T;
+
+    return (await res.json()) as T;
+}

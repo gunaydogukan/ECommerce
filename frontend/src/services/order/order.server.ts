@@ -9,15 +9,15 @@ import {
     GetSoldProductsApiResponse
 } from "@/services/order/types";
 import { getCookieToken } from "@/lib/getCookie.server";
+import {cookies} from "next/headers";
 
 export async function createOrderServer(payload: CreateOrderPayload): Promise<CreateOrderApiResponse> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.ORDERS}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify(payload),
     });
@@ -32,13 +32,12 @@ export async function createOrderServer(payload: CreateOrderPayload): Promise<Cr
 }
 
 export async function getMyOrdersServer(): Promise<GetMyOrdersApiResponse> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.ORDERS}/my`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
         cache: "no-store",
     });
@@ -53,13 +52,12 @@ export async function getMyOrdersServer(): Promise<GetMyOrdersApiResponse> {
 }
 
 export async function getSoldProductsServer(): Promise<GetSoldProductsApiResponse> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.ORDERS}/sold-products`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Cookie": cookies().toString(),
         },
         cache: "no-store",
     });

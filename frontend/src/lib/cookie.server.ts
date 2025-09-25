@@ -1,17 +1,6 @@
 import { cookies } from "next/headers";
 
-const TOKEN_KEY = "token";
-
-export async function setSessionToken(token: string) {
-    const cookie = await cookies();
-    cookie.set(TOKEN_KEY, token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 60 * 60 * 24,
-    });
-}
+const TOKEN_KEY = "accessToken";
 
 export async function getSessionToken(): Promise<string | undefined> {
     const cookie = await cookies();

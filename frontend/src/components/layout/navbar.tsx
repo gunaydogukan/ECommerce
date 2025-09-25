@@ -22,16 +22,17 @@ import {
 import {isAuthenticatedAtom} from "@/stores/auth-atom";
 import {useAtom} from "jotai";
 import {getCookieServer} from "@/lib/getCookie.server";
-import {router} from "next/client";
 import {categories} from "@/types";
+import {useRouter} from "next/navigation";
 
 export function Navbar() {
     const [isAuthenticated, setIsAuthenticated] = useAtom(isAuthenticatedAtom);
+    const router = useRouter();
 
     const logout = async () => {
         await getCookieServer();
         setIsAuthenticated(false);
-        await router.push("/auth/login");
+        router.push("/auth/login");
     };
 
     return (

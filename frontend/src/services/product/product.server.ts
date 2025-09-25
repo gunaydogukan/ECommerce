@@ -4,6 +4,7 @@ import { BASE_URL } from "@/lib/config";
 import { API_ENDPOINTS } from "@/lib/constants";
 import {Product, ProductsResponse, AddProductRequest,ProductResponse} from "./types";
 import { getCookieToken } from "@/lib/getCookie.server";
+import {cookies} from "next/headers";
 
 export async function getProductsServer(): Promise<Product[]> {
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}`, {
@@ -23,13 +24,12 @@ export async function getProductsServer(): Promise<Product[]> {
 }
 
 export async function getMyProductsServer(): Promise<Product[]> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}/my`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Cookie": cookies().toString(),
         },
         cache: "no-store",
     });
@@ -48,13 +48,12 @@ export async function getMyProductsServer(): Promise<Product[]> {
 }
 
 export async function addProductServer(payload: AddProductRequest): Promise<Product> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify(payload),
     });
@@ -69,13 +68,12 @@ export async function addProductServer(payload: AddProductRequest): Promise<Prod
 }
 
 export async function updateProductServer(id: number, payload: Partial<Product>): Promise<Product> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Cookie": cookies().toString(),
         },
         body: JSON.stringify({ ...payload, id }),
     });
@@ -124,13 +122,12 @@ export async function getProductsByCategoryServer(categoryId: number): Promise<P
 }
 
 export async function deleteProductServer(id: number): Promise<void> {
-    const token = await getCookieToken();
 
     const res = await fetch(`${BASE_URL}${API_ENDPOINTS.PRODUCTS}/${id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Cookie": cookies().toString(),
         },
     });
 
