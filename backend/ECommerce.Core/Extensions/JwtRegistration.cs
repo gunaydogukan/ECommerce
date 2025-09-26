@@ -33,27 +33,6 @@ namespace ECommerce.Core.Extensions
                         ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
                     };
-
-                    //ex middleware tasinacak
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnChallenge = context =>
-                        {
-                            // Varsayılan davranışı bastırıyoruz
-                            context.HandleResponse();
-
-                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                            context.Response.ContentType = "application/json";
-
-                            var result = System.Text.Json.JsonSerializer.Serialize(new
-                            {
-                                message = "Yetkisiz erişim. Lütfen giriş yapınız."
-                            });
-
-                            return context.Response.WriteAsync(result);
-                        }
-                    };
-
                 });
 
             return services;

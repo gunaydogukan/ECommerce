@@ -18,7 +18,7 @@ namespace ECommerce.DataAccess.Contexts
         )
         {
             _userAccessor = userAccessor;
-            _dbSettings = dbOptions.Value; // IOptions’tan DbSettings çekiyoruz
+            _dbSettings = dbOptions.Value; 
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -10,10 +10,13 @@ namespace ECommerce.DataAccess.Contexts
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if (typeof(IAuditableEntity).IsAssignableFrom(entityType.ClrType))
+                if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
                 {
                     var parameter = Expression.Parameter(entityType.ClrType, "p");
-                    var deletedCheck = Expression.Lambda(Expression.Equal(Expression.Property(parameter, "IsDeleted"), Expression.Constant(false)), parameter);
+                    var deletedCheck = Expression.Lambda(
+                        Expression.Equal(
+                            Expression.Property(parameter, "IsDeleted"), 
+                            Expression.Constant(false)), parameter);
                     modelBuilder.Entity(entityType.ClrType).HasQueryFilter(deletedCheck);
                 }
             }

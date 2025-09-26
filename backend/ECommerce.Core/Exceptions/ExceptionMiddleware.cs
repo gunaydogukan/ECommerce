@@ -56,6 +56,11 @@ public class ExceptionMiddleware
                 response = new { message = baseEx.Message };
                 break;
 
+            case UnauthorizedAccessException:
+                statusCode = HttpStatusCode.Unauthorized;
+                response = new { message = "Yetkisiz erişim. Lütfen giriş yapınız." };
+                break;
+
             default:
                 statusCode = HttpStatusCode.InternalServerError;
                 response = new { message = "Sunucuda beklenmeyen bir hata oluştu." };
