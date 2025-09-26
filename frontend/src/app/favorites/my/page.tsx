@@ -1,8 +1,8 @@
 "use server";
 
 import { getMyFavoritesServer } from "@/services/favorite/favorite.server";
-import { FavoriteList } from "@/components/favorites/favorite-list";
-import { FavoritesInitializer } from "@/components/products/favorites-initializer";
+import { FavoriteList } from "@/features/favorites/favorite-list";
+import { FavoritesInitializer } from "@/features/products/favorites-initializer";
 
 export default async function FavoritesMyPage() {
     const favorites = await getMyFavoritesServer();

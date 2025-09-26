@@ -1,7 +1,7 @@
 "use server";
 
 import { getSoldProductsServer } from "@/services/order/order.server";
-import SoldProductsList from "@/components/orders/sold-products-list";
+import SoldProductsList from "@/features/orders/sold-products-list";
 
 export default async function SoldProductsPage() {
     const products = await getSoldProductsServer();

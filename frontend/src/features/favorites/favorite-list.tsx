@@ -1,7 +1,7 @@
 "use client";
 
 import { MyFavoriteResponse } from "@/services/favorite/types";
-import { ProductCard } from "@/components/products/product-card";
+import { ProductCard } from "@/features/products/product-card";
 import { PLACEHOLDER_IMAGE } from "@/lib/constants";
 
 interface FavoriteListProps {

@@ -12,7 +12,7 @@ import {
     updateCartServer,
     removeFromCartServer,
 } from "@/services/cart/cart.server";
-import {CheckoutButton} from "@/components/cart/checkout-button";
+import {CheckoutButton} from "@/features/cart/checkout-button";
 
 interface CartListProps {
     items: CartItem[];

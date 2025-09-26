@@ -2,8 +2,8 @@
 
 import { getProductsServer } from "@/services/product/product.server";
 import { getMyFavoritesServer } from "@/services/favorite/favorite.server";
-import { ProductGrid } from "@/components/products/list/product-grid";
-import { FavoritesInitializer } from "@/components/products/favorites-initializer";
+import { ProductGrid } from "@/features/products/list/product-grid";
+import { FavoritesInitializer } from "@/features/products/favorites-initializer";
 
 export default async function HomePage() {
     const products = await getProductsServer();

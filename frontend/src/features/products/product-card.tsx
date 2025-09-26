@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Product } from "@/services/product/types";
-import { AddToCartButton } from "./add/add-to-cart-button";
+import { AddToCartButton } from "@/features/products/add/add-to-cart-button";
 import { PLACEHOLDER_IMAGE } from "@/lib/constants";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deleteProductServer } from "@/services/product/product.server";
 import { useState } from "react";
-import {BuyNowButton} from "@/components/products/buy-now-button";
-import {AddToFavoriteButton} from "@/components/products/add/add-to-favorite-button";
+import {BuyNowButton} from "@/features/products/buy-now-button";
+import {AddToFavoriteButton} from "@/features/products/add/add-to-favorite-button";
 
 interface ProductCardProps {
     product: Product;
@@ -28,7 +28,7 @@ export function ProductCard({ product, showAddToCart = true, canEdit = false }: 
 
         try {
             setLoading(true);
-            console.log("asdasdasasdasdasa"+product.id);
+            console.log("prodid = "+product.id);
             await deleteProductServer(product.id);
             router.refresh();
         } catch (err: any) {

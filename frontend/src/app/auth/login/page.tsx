@@ -1,7 +1,7 @@
 "use server";
 
-import {GuestOnly} from "@/components/auth/guest-only";
-import LoginForm from "@/components/auth/login/login-form";
+import {GuestOnly} from "@/features/auth/guest-only";
+import LoginForm from "@/features/auth/login/login-form";
 
 export default async function LoginPage() {
     return (

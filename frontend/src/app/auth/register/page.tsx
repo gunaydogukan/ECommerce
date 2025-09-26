@@ -1,7 +1,7 @@
 "use server";
 
-import { GuestOnly } from "@/components/auth/guest-only";
-import RegisterForm from "@/components/auth/register/register-form";
+import { GuestOnly } from "@/features/auth/guest-only";
+import RegisterForm from "@/features/auth/register/register-form";
 
 export default async function RegisterPage() {
     return (

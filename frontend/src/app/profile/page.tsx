@@ -1,7 +1,7 @@
 "use server";
 
 import { getMeServer } from "@/services/user/user.server";
-import ProfileCard from "@/components/user/profile-card";
+import ProfileCard from "@/features/user/profile-card";
 
 export default async function ProfilePage() {
     const user = await getMeServer();

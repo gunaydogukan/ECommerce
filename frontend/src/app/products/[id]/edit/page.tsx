@@ -1,7 +1,7 @@
 "use server"
 
 import { getProductByIdServer } from "@/services/product/product.server";
-import EditProductForm from "@/components/products/edit/ edit-product-form";
+import EditProductForm from "@/features/products/edit/ edit-product-form";
 
 interface EditProductPageProps {
     params: { id: string };
